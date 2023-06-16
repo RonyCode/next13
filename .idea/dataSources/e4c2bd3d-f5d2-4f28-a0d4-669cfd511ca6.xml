@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="gsoHomologacao@localhost">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.48">
+    <root id="1">
+      <DefaultCasing>exact</DefaultCasing>
+      <ServerVersion>8.0.33</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="gsoHomologacao">
+      <Current>1</Current>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="intranet"/>
+    <schema id="5" parent="1" name="intranetHomologacao"/>
+    <schema id="6" parent="1" name="mysql"/>
+    <schema id="7" parent="1" name="performance_schema"/>
+    <schema id="8" parent="1" name="prevenir"/>
+    <schema id="9" parent="1" name="prevenirHomologacao"/>
+    <schema id="10" parent="1" name="sys"/>
+  </database-model>
+</dataSource>
