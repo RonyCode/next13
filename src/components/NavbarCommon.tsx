@@ -1,0 +1,41 @@
+'use client';
+import React from 'react';
+
+import { getServerSession } from 'next-auth';
+import { signOut } from 'next-auth/react';
+import Image from 'next/image';
+
+import SignButton from '@/components/SignButton';
+import { authOptions } from '@/lib/auth';
+import { LogOut } from 'lucide-react';
+
+export default async function NavbarCommon() {
+  return (
+    <>
+      <nav className="flex h-20 w-screen items-center justify-around bg-slate-600 text-white shadow-2xl">
+        <a className=" w-auto" href="/">
+          <Image
+            className=" rounded-2xl hover:shadow-2xl"
+            src="/images/logo.png"
+            width={150}
+            height={150}
+            alt="imagem de logotipo"
+            priority={true}
+          />
+        </a>
+
+        <div className="flex  flex-row justify-around ">
+          <div className="mr-6"></div>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              signOut({ callbackUrl: '/' });
+            }}
+          >
+            <LogOut />
+          </button>
+        </div>
+      </nav>
+    </>
+  );
+}
