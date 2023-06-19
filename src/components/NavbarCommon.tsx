@@ -29,7 +29,7 @@ export default async function NavbarCommon() {
           <button
             onClick={(e) => {
               e.preventDefault();
-              signOut({ callbackUrl: '/' });
+              signOut({ callbackUrl: '/login' });
             }}
           >
             <LogOut />

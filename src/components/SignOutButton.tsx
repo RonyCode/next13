@@ -14,7 +14,9 @@ const SignOutButton = () => {
         <Button
           onClick={(e) => {
             e.preventDefault();
-            signOut({ callbackUrl: `${window.location.origin}/login` });
+            signOut({ callbackUrl: `${window.location.origin}/login` }).then(
+              (r) => console.log(r)
+            );
           }}
         >
           <LogOut />

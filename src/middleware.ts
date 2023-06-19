@@ -3,14 +3,6 @@ import { NextResponse } from 'next/server';
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  // const test1 = cookies().getAll();
-  //
-  // async function getCookieParser() {
-  //   'use server';
-  //   const test2 = await getCookieParser();
-  //   console.log(test2);
-  // }
-  // console.log(test1);
   const allowedOrigins =
     process.env.NODE_ENV === 'production'
       ? ['https://www.example.com']
@@ -27,9 +19,9 @@ export function middleware(request: NextRequest) {
     });
   }
   console.log('middleware');
-  return NextResponse.next();
+  // return NextResponse.next();
 
-  // return NextResponse.redirect(new URL('/', request.url));
+  return NextResponse.redirect(new URL('/dashboard', request.url));
 }
 
 export const config = {

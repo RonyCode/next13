@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { limiter } from '@/app/api/config/limiter';
-import { loginValidator } from '@/lib/validations/login-validator';
+import { SignInSchema } from '@/lib/schemas/SignInSchema';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const origin: string | null = request.headers.get('origin');
   const remaining: number = await limiter.removeTokens(1);
-  const body: Login = await request.json();
-  const { email, senha } = loginValidator.parse(body);
+  const body: SignInSchema = await request.json();
+  const { email, senha } = body;
 
   if (!email || !senha)
-    return NextResponse.json({ message: 'Missing required data' });
+    return NextResponse.json({ message: 'Erro parametros necessários' });
 
   if (remaining < 0) {
     return new NextResponse(null, {

@@ -10,10 +10,7 @@ interface ProviderProps {
 const Providers: FC<ProviderProps> = ({ children }) => {
   return (
     <>
-      <SessionProvider>
-        <Toaster position="top-center" reverseOrder={false} />
-        {children}
-      </SessionProvider>
+      <SessionProvider>{children}</SessionProvider>
     </>
   );
 };
