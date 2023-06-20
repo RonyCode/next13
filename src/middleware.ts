@@ -19,9 +19,9 @@ export function middleware(request: NextRequest) {
     });
   }
   console.log('middleware');
-  // return NextResponse.next();
+  return NextResponse.next();
 
-  return NextResponse.redirect(new URL('/dashboard', request.url));
+  // return NextResponse.redirect(new URL('/dashboard', request.url));
 }
 
 export const config = {
