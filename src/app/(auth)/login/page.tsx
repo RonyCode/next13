@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import 'react-toastify/dist/ReactToastify.css';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,23 +10,24 @@ import { toast } from 'react-toastify';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect, useRouter } from 'next/navigation';
 
 import Button from '@/components/ui/Button';
-import { SignInSchema } from '@/lib/schemas/SignInSchema';
+import { loginValidator } from '@/lib/validations/login-validator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+type FormData = z.infer<typeof loginValidator>;
+
 const Page: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSuccessState, setShowSuccessState] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors }
-  } = useForm<SignInSchema>({
-    mode: 'all',
-    resolver: zodResolver(SignInSchema)
-  });
+  } = useForm<FormData>({ resolver: zodResolver(loginValidator) });
 
   async function loginWithGoogle() {
     setIsLoading(true);
@@ -34,16 +37,17 @@ const Page: FC = () => {
       });
       toast.success('Login realizado com sucesso! 👌');
     } catch (error) {
+      // display error message to user
       toast.error('Erro ao tentar logar tente novamente! 🤯');
     } finally {
       setIsLoading(false);
     }
   }
 
-  const mySignIn = async (data: SignInSchema) => {
+  const mySignIn = async (data: FormData) => {
     setIsLoading(true);
 
-    const { email, senha } = data;
+    const { email, senha } = loginValidator.parse(data);
 
     try {
       await signIn('credentials', {
@@ -54,7 +58,7 @@ const Page: FC = () => {
         if (res?.error == null) {
           toast.success('Login realizado com sucesso! 👌');
         } else {
-          toast.error('Email ou senha incorretos! 🤯');
+          toast.error('Erro ao tentar logar tente novamente! 🤯');
         }
       });
     } catch (error) {
@@ -74,8 +78,9 @@ const Page: FC = () => {
       setIsLoading(false);
     }
   };
-
-  const handleSubmitLogin = async (data: SignInSchema) => {
+  const closeAfter15 = () =>
+    toast('Will close after 15s', { autoClose: 15000 });
+  const handleSubmitLogin = async (data: FormData) => {
     await mySignIn(data);
   };
 
@@ -83,6 +88,8 @@ const Page: FC = () => {
     <>
       <div className=" flex min-h-screen items-center justify-center bg-slate-800 px-4  sm:px-6 lg:px-8">
         <div className="min-w-md flex w-6/12 flex-col items-center space-y-8 rounded bg-slate-700 py-12 text-white">
+          <button onClick={closeAfter15}>Close after 15 seconds</button>
+
           <div className="flex h-full w-full flex-col items-center gap-8  ">
             <Image
               src="/images/logo.png"
@@ -112,6 +119,9 @@ const Page: FC = () => {
                   <p className="mt-1 text-sm text-red-600">
                     {errors.email?.message}
                   </p>
+                  {showSuccessState && (
+                    <p className="mt-1 text-sm text-green-600">Success</p>
+                  )}
                 </div>
                 <div className="mb-6">
                   <label
@@ -130,6 +140,9 @@ const Page: FC = () => {
                   <p className=" text-sm text-red-600">
                     {errors.senha?.message}
                   </p>
+                  {showSuccessState && (
+                    <p className=" text-sm text-green-600">Success</p>
+                  )}{' '}
                 </div>
 
                 <div className="flex items-center justify-between">

@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
 import { authOptions } from '@/lib/auth';
 import Button from '@/ui/Button';
@@ -12,10 +12,8 @@ const SignButton = async () => {
     return (
       <>
         <div className="mr-6">{session?.user?.name}</div>
-        <Button className="ml-6">
-          <span>
-            <LogOut />
-          </span>
+        <Button onClick={() => signOut()} className="ml-6">
+          <LogOut />
         </Button>
       </>
     );

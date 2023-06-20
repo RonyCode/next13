@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import React from 'react';
 
-import ToastProvider from '@/components/ToastProvider';
+import ToastProvider from '@/context/ToastProvider';
 
 export const metadata = {
   title: 'GSO | Login',

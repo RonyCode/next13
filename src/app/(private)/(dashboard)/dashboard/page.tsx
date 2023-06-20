@@ -1,11 +1,8 @@
 import React from 'react';
 
 import { getServerSession } from 'next-auth';
-import Image from 'next/image';
 
-import Button from '@/components/ui/Button';
 import { authOptions } from '@/lib/auth';
-import { LogOut } from 'lucide-react';
 
 const Dashboard = async () => {
   const session = await getServerSession(authOptions);

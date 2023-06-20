@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
           senha: credentials?.senha
         };
 
+        console.log(payload);
         if (!payload.email || !payload.senha) {
           throw new Error('Por favor digite um email e uma senha válidos');
         }

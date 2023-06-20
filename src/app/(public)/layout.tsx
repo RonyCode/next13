@@ -1,11 +1,13 @@
 import '@/styles/globals.css';
-import React from 'react';
 
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import '@/styles/globals.css';
+
 import Navbar from '@/components/Navbar';
-import ToastProvider from '@/components/ToastProvider';
+import Providers from '@/components/Providers';
+import ToastProvider from '@/context/ToastProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -1,12 +1,9 @@
 'use client';
 import React from 'react';
 
-import { getServerSession } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 
-import SignButton from '@/components/SignButton';
-import { authOptions } from '@/lib/auth';
 import { LogOut } from 'lucide-react';
 
 export default async function NavbarCommon() {
