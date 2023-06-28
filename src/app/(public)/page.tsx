@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { authOptions } from '@/lib/auth';
 

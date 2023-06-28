@@ -27,6 +27,7 @@
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "react/display-name": "off",
     "prettier/prettier": "error",
     "import-helpers/order-imports": [
       "warn",

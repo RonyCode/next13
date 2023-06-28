@@ -1,7 +1,8 @@
 import '@/styles/globals.css';
+
 import React from 'react';
 
-import ToastProvider from '@/context/ToastProvider';
+import { Providers } from '@/providers';
 
 export const metadata = {
   title: 'GSO | Login',
@@ -16,7 +17,7 @@ export default function LoginLayout({
   return (
     <html lang="pt-Br">
       <body>
-        <ToastProvider>{children}</ToastProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
