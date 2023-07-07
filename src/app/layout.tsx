@@ -1,21 +1,13 @@
 import '@/styles/globals.css';
-
-import React from 'react';
-
 import { Providers } from '@/providers';
 
-export const metadata = {
-  title: 'GSO | Login',
-  description: 'página de login do aplicativo GSO'
-};
-
-export default function LoginLayout({
+export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-Br">
+    <html lang="pt-BR">
       <body>
         <Providers>{children}</Providers>
       </body>

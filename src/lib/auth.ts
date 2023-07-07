@@ -1,6 +1,11 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+
+import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
+import { limiter } from '@/app/api/config/limiter';
 
 function getGoogleCredentials() {
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
@@ -20,6 +25,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt'
   },
+
   pages: {
     signIn: '/login'
   },
@@ -58,11 +64,18 @@ export const authOptions: NextAuthOptions = {
         const user = await res.json();
 
         if (!user.token) {
-          throw new Error(user.message);
+          return null;
         }
 
         if (res.ok && user) {
+          cookies().set('token', user.token, {
+            maxAge: 2 * 24 * 60 * 60,
+            path: '/',
+            httpOnly: true
+          });
           return user;
+        } else {
+          return null;
         }
       }
     })

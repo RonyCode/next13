@@ -2,15 +2,18 @@
 import { toast } from 'react-toastify';
 
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
 import { z } from 'zod';
 
 export const useSignIn = () => {
+  const router = useRouter();
+
   async function signInWithGoogle() {
     try {
       await signIn('google', {
-        redirect: false
+        callbackUrl: 'http://localhost:3000/dashboard'
       });
       toast.success('Login realizado com sucesso! 👌');
     } catch (error) {
@@ -29,6 +32,7 @@ export const useSignIn = () => {
       }).then((res) => {
         if (res?.error == null) {
           toast.success('Login realizado com sucesso! 👌');
+          router.push('/dashboard');
         } else {
           toast.error('Email ou senha incorretos, tente novamente! 🤯');
         }

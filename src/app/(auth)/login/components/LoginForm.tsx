@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import * as React from 'react';
+import { useTransition } from 'react';
+import { MdPassword } from 'react-icons/md';
 
 import Link from 'next/link';
 
@@ -8,85 +10,96 @@ import { signInServerActions } from '@/app/(auth)/login/actions/signInServerActi
 import { useFormLogin } from '@/app/(auth)/login/hooks/useFormLogin';
 import { useSignIn } from '@/app/(auth)/login/hooks/useSign';
 import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
-import { Input } from '@/components/Form';
+import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
+import { User } from 'lucide-react';
 
 const LoginForm = () => {
-  const [isPending] = useTransition();
-  const { setError, errors } = useFormLogin();
+  const { errors, register } = useFormLogin();
   const { signInWithGoogle, signInWithCredentials } = useSignIn();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // eslint-disable-next-line prefer-const
+  let [pending, startTransition] = useTransition();
 
   const handleSubmitLogin = async (data: FormData) => {
-    const result: { senha: string; email: string } | SignInSchema[] =
-      await signInServerActions(data);
-
-    if (Array.isArray(result)) {
-      for (const itemElement of result) {
-        if (itemElement.email)
-          setError('email', { message: itemElement.email });
-        if (itemElement.senha)
-          setError('senha', { message: itemElement.senha });
-      }
-    } else {
-      setError('email', { message: '' });
-      setError('senha', { message: '' });
-      await signInWithCredentials(result);
+    const result: SignInSchema | any = await signInServerActions(data);
+    if (!Array.isArray(result.details)) {
+      startTransition(async () => {
+        await signInWithCredentials(result);
+      });
     }
   };
 
+  const handleSubmitLoginWithGoogle = async () => {
+    startTransition(async () => {
+      await signInWithGoogle();
+    });
+  };
+
+  const hasError =
+    (errors.email?.message?.length && errors.email?.message?.length > 0) ||
+    (errors.senha?.message?.length && errors.senha?.message?.length > 0);
   return (
     <>
-      <form
-        action={handleSubmitLogin}
-        className="mb-4 rounded bg-slate-300  px-12 pb-8 pt-6 shadow-md"
-      >
-        <div className="mb-4">
-          <Input
-            label="Email"
-            className="focus:shadow-outline mx-auto w-full max-w-sm appearance-none rounded border p-2 px-3 py-2 text-base leading-tight text-gray-700 shadow focus:outline-none"
-            name="email"
-            type="text"
-            placeholder="Login"
-            helpText={errors.email?.message}
-          />
-        </div>
-        <div className="mb-6">
-          <Input
-            label="Senha"
-            name="senha"
-            type="password"
-            helpText={errors.senha?.message}
-            placeholder="**********"
-          />
-        </div>
+      <div className=" w-full  md:w-96  ">
+        <form action={handleSubmitLogin}>
+          <Input.Root>
+            <Input.Content
+              autoFocus={true}
+              {...register('email')}
+              label="Email"
+              icon={User}
+              name="email"
+              placeholder="Digite seu email"
+              hasError={errors.email?.message}
+            />
+            <Input.HelpText
+              text={errors.email?.message && '📣 ' + errors.email?.message}
+            />
+          </Input.Root>
 
-        <div className="flex items-center justify-between">
-          <Button
-            isLoading={isLoading}
-            variant="default"
-            className="mr-2 w-full max-w-sm p-2"
-            type="submit"
-          >
-            Login
-          </Button>
-          <Link
-            className="ml-2 inline-block align-baseline text-sm font-bold text-blue-500 hover:text-blue-800"
-            href="/recupera-senha"
-          >
-            Esqueceu sua senha?
-          </Link>
-        </div>
-      </form>
-      <h1 className="text-xl">OR</h1>
-      <Button
-        isLoading={isLoading}
-        type="button"
-        variant="default"
-        className="mx-auto w-full max-w-sm p-2"
-        onClick={signInWithGoogle}
-      >
-        {isLoading ? null : (
+          <Input.Root className="mb-2">
+            <Input.Content
+              {...register('senha')}
+              icon={MdPassword}
+              label="Senha"
+              name="senha"
+              placeholder="Digite sua senha"
+              type="password"
+              hasError={errors.senha?.message}
+            />
+            <Input.HelpText
+              text={errors.senha?.message && '📣 ' + errors.senha?.message}
+            />
+          </Input.Root>
+          <div className="mt-3 flex items-center justify-between ">
+            <Button
+              isLoading={pending}
+              disabled={hasError || pending}
+              variant="default"
+              className="mr-2 w-full max-w-sm p-2"
+              type="submit"
+            >
+              Login
+            </Button>
+            <Link
+              className="ml-2 inline-block align-baseline text-sm font-bold text-blue-500 hover:text-blue-800"
+              href="/recupera-senha"
+            >
+              Esqueceu sua senha?
+            </Link>
+          </div>
+        </form>
+
+        <h1 className="py-4 text-center text-xl">OR</h1>
+
+        <Button
+          disabled={pending}
+          isLoading={pending}
+          type="button"
+          variant="default"
+          className="mx-auto mb-3 w-full  p-2"
+          onClick={handleSubmitLoginWithGoogle}
+        >
           <svg
             className="mr-2 h-4 w-4"
             aria-hidden="true"
@@ -115,13 +128,13 @@ const LoginForm = () => {
             />
             <path d="M1 1h22v22H1z" fill="none" />
           </svg>
-        )}
-        Google
-      </Button>
+          Google
+        </Button>
 
-      <p className="text-center text-xs text-gray-500">
-        &copy;2023 RCode All rights reserved.
-      </p>
+        <div className="text-center text-xs text-gray-500">
+          &copy;2023 RCode All rights reserved.
+        </div>
+      </div>
     </>
   );
 };

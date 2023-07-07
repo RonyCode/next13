@@ -5,9 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import SignOutButton from '@/components/SignOutButton';
-import Button from '@/components/ui/Button';
 import { authOptions } from '@/lib/auth';
-import { LogOut } from 'lucide-react';
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);

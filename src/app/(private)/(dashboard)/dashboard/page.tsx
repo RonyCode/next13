@@ -9,7 +9,7 @@ const Dashboard = async () => {
   return (
     <div>
       <section className=" h-screen w-screen bg-slate-800">
-        <div className="h-full bg-amber-50 md:container md:mx-auto">
+        <div className="h-full bg-amber-50 text-black md:container md:mx-auto ">
           {' '}
           {session?.name}
           <br /> {session?.nome}

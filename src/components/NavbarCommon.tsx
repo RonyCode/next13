@@ -1,10 +1,9 @@
 'use client';
 import React from 'react';
 
-import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 
-import { LogOut } from 'lucide-react';
+import SignOutButton from '@/components/SignOutButton';
 
 export default async function NavbarCommon() {
   return (
@@ -23,14 +22,7 @@ export default async function NavbarCommon() {
 
         <div className="flex  flex-row justify-around ">
           <div className="mr-6"></div>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              signOut({ callbackUrl: '/login' });
-            }}
-          >
-            <LogOut />
-          </button>
+          <SignOutButton />
         </div>
       </nav>
     </>
