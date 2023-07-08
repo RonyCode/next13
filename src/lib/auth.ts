@@ -2,10 +2,6 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
-
-import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
-import { limiter } from '@/app/api/config/limiter';
 
 function getGoogleCredentials() {
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
@@ -48,7 +44,8 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         const payload = {
           email: credentials?.email,
-          senha: credentials?.senha
+          senha: credentials?.senha,
+          role: 'user'
         };
 
         if (!payload.email || !payload.senha) {
@@ -106,7 +103,6 @@ export const authOptions: NextAuthOptions = {
           refreshToken: user.refreshToken,
           accessTokenExpires: user.accessTokenExpires
         };
-
       return token;
     },
     async session({ session, token }) {

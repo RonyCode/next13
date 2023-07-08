@@ -19,7 +19,9 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  const token = request.cookies.has('next-auth.session-token');
+  const token =
+    request.cookies.has('token') ||
+    request.cookies.has('next-auth.session-token');
   if (!token) {
     if (request.nextUrl.pathname === '/login') {
       return NextResponse.next();

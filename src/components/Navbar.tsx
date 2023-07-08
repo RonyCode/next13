@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import SignOutButton from '@/components/SignOutButton';
+import SignOutButton from '@/components/SignOutButton/SignOutButton';
 import { authOptions } from '@/lib/auth';
 
 export default async function Navbar() {
