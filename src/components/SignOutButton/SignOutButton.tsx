@@ -2,21 +2,23 @@
 import React from 'react';
 
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 import { deleteCookies } from '@/components/SignOutButton/LogoutAction';
 import Button from '@/ui/Button';
 import { LogOut } from 'lucide-react';
+
 const SignOutButton = () => {
+  const handleClick = async () => {
+    await deleteCookies();
+    await signOut({
+      callbackUrl: 'http://localhost:3000/login'
+    });
+  };
+
   return (
     <>
       <div>
-        <Button
-          onClick={async () => {
-            await signOut({ callbackUrl: '/login' });
-            await deleteCookies();
-          }}
-        >
+        <Button onClick={handleClick}>
           <LogOut />
         </Button>
       </div>

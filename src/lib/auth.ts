@@ -89,6 +89,10 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     jwt: async function ({ token, user, account }) {
+      if (account?.id_token) {
+        console.log(account?.id_token);
+      }
+
       if (account && user)
         return {
           ...token,
@@ -98,7 +102,7 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           picture: user.image,
           token: user.token,
-          id_token: account.id_token,
+          id_token: account?.id_token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
           accessTokenExpires: user.accessTokenExpires

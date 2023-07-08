@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import SignOutButton from '@/components/SignOutButton/SignOutButton';
 
-export default async function NavbarCommon() {
+export default async function NavbarPrivate() {
   return (
     <>
       <nav className="flex h-20 w-screen items-center justify-around bg-slate-600 text-white shadow-2xl">

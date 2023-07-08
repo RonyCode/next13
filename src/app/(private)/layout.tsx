@@ -1,5 +1,5 @@
 import '@/styles/globals.css';
-import NavbarCommon from '@/components/NavbarCommon';
+import NavbarPrivate from '@/components/NavbarPrivate/NavbarPrivate';
 
 export default function PublicLayout({
   children
@@ -8,7 +8,7 @@ export default function PublicLayout({
 }) {
   return (
     <section>
-      <NavbarCommon />
+      <NavbarPrivate />
       {children}
     </section>
   );

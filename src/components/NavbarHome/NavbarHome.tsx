@@ -7,7 +7,7 @@ import Link from 'next/link';
 import SignOutButton from '@/components/SignOutButton/SignOutButton';
 import { authOptions } from '@/lib/auth';
 
-export default async function Navbar() {
+export default async function NavbarHome() {
   const session = await getServerSession(authOptions);
   return (
     <>
@@ -50,7 +50,10 @@ export default async function Navbar() {
                 <SignOutButton />
               </div>
             ) : (
-              <Link href="/login">Login</Link>
+              <div className="gap-2 space-x-6">
+                <Link href="/register">Cadastrar</Link>
+                <Link href="/login">Login</Link>
+              </div>
             )}{' '}
           </div>
         </div>
