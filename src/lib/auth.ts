@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Por favor digite um email e uma senha válidos');
         }
 
-        const res = await fetch('http://localhost:3000/api/login', {
+        const res = await fetch(`${process.env.API_NEXT}/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -61,12 +61,13 @@ export const authOptions: NextAuthOptions = {
         const user = await res.json();
 
         if (!user.token) {
+          console.log(user);
           return null;
         }
 
         if (res.ok && user) {
           cookies().set('token', user.token, {
-            maxAge: 2 * 24 * 60 * 60,
+            maxAge: 3600,
             path: '/',
             httpOnly: true
           });
@@ -107,7 +108,14 @@ export const authOptions: NextAuthOptions = {
           refreshToken: user.refreshToken,
           accessTokenExpires: user.accessTokenExpires
         };
-      return token;
+
+      // Return previous token if the access token has not expired yet
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+
+      // Access token has expired, try to update it
+      return refreshAccessToken(token);
     },
     async session({ session, token }) {
       if (token) {

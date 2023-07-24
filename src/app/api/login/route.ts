@@ -22,7 +22,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const res = await fetch(`${process.env.API_URL_DEVELOPMENT}/login/auth`, {
+  const res = await fetch(`${process.env.API_GSO}/login/auth`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
