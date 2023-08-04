@@ -3,6 +3,8 @@
     "browser": true,
     "es2021": true
   },
+  "root": true,
+
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -19,7 +21,7 @@
   },
   "plugins": [
     "react",
-    "react-hooks",
+//    "react-hooks",
     "prettier",
     "@typescript-eslint",
     "eslint-plugin-import-helpers"

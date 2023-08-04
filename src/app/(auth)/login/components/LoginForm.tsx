@@ -22,11 +22,13 @@ const LoginForm = () => {
 
   const handleSubmitLogin = async (data: FormData) => {
     const result: SignInSchema | any = await signInServerActions(data);
-    if (!Array.isArray(result.details)) {
+    if (!Array.isArray(result?.details)) {
       startTransition(async () => {
         await signInWithCredentials(result);
       });
     }
+
+
   };
 
   const handleSubmitLoginWithGoogle = async () => {

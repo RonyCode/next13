@@ -1,5 +1,8 @@
+import { cookies } from 'next/headers';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+
+import { jwtVerify } from 'jose';
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
@@ -19,14 +22,17 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  const token =
-    request.cookies.has('token') ||
-    request.cookies.has('next-auth.session-token');
+  const token = request.cookies.get('token')?.value;
+  const refreshToken = request.cookies.get('refresh_token')?.value;
+
   if (!token) {
-    if (request.nextUrl.pathname === '/login') {
-      return NextResponse.next();
+    if (!refreshToken) {
+      if (request.nextUrl.pathname === '/login') {
+        return NextResponse.next();
+      }
+      return NextResponse.redirect(new URL('/login', request.url));
     }
-    return NextResponse.redirect(new URL('/login', request.url));
+    console.log(refreshToken);
   }
   if (request.nextUrl.pathname === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url));

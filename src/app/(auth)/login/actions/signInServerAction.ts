@@ -1,7 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-
 import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
 import { zact } from 'zact/server';
 import { ZodError } from 'zod';
@@ -9,7 +7,6 @@ import { ZodError } from 'zod';
 export const validatedAction = zact(SignInSchema)(async ({ email, senha }) => {
   return { email, senha };
 });
-
 export const signInServerActions = async (data: FormData) => {
   try {
     const email = data.get('email') as string;
