@@ -19,16 +19,14 @@ const LoginForm = () => {
   const { signInWithGoogle, signInWithCredentials } = useSignIn();
   // eslint-disable-next-line prefer-const
   let [pending, startTransition] = useTransition();
-
   const handleSubmitLogin = async (data: FormData) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: SignInSchema | any = await signInServerActions(data);
     if (!Array.isArray(result?.details)) {
       startTransition(async () => {
         await signInWithCredentials(result);
       });
     }
-
-
   };
 
   const handleSubmitLoginWithGoogle = async () => {

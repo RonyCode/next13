@@ -9,7 +9,7 @@ import { LogOut } from 'lucide-react';
 
 const SignOutButton = () => {
   const handleClick = async () => {
-    await deleteCookies();
+    deleteCookies();
     await signOut({
       callbackUrl: 'http://localhost:3000/login'
     });

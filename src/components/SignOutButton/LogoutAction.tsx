@@ -19,5 +19,13 @@ export const deleteCookies = () => {
     path: '/',
     maxAge: 0
   });
+
+  cookies().set({
+    name: 'refresh_token',
+    value: '',
+    expires: new Date('2016-10-05'),
+    path: '/',
+    maxAge: 0
+  });
   revalidatePath('/login');
 };

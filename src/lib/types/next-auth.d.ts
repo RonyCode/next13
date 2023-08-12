@@ -5,20 +5,14 @@ import { type } from '@auth/core/types';
 
 type UserId = string;
 
-declare module '@auth/core/types' {
-  interface Session {
-    error?: 'RefreshAccessTokenError';
-  }
-}
-
 declare module 'next-auth' {
   interface Session {
     id: UserId;
-    cod_usuario: string;
-    nome: string;
-    name: string;
-    email: string;
-    image: string;
+    cod_usuario?: string;
+    nome?: string;
+    name?: string;
+    email?: string;
+    image?: string;
     senha?: string;
     id_token?: Account.id_token;
     accessToken?: string;
@@ -63,11 +57,11 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   interface JWT {
-    id: UserId;
-    cod_usuario: string;
-    nome: string;
-    email: string;
-    picture: string;
+    id?: UserId;
+    cod_usuario?: string;
+    nome?: string;
+    email?: string;
+    picture?: string;
     senha?: string;
     id_token?: Account.id_token;
     accessToken?: string;

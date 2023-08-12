@@ -1,8 +1,5 @@
-import { cookies } from 'next/headers';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-
-import { jwtVerify } from 'jose';
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
@@ -32,7 +29,19 @@ export async function middleware(request: NextRequest) {
       }
       return NextResponse.redirect(new URL('/login', request.url));
     }
-    console.log(refreshToken);
+
+    const res = await fetch(`${process.env.API_NEXT}/refresh-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(refreshToken)
+    });
+
+    const user = await res.json();
+
+    if (!user.token) {
+      console.log(user);
+      return null;
+    }
   }
   if (request.nextUrl.pathname === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url));

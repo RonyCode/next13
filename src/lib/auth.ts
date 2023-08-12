@@ -1,5 +1,4 @@
-import type { Awaitable, NextAuthOptions, TokenSet } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import type { NextAuthOptions, TokenSet } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { cookies } from 'next/headers';
@@ -21,7 +20,7 @@ function getGoogleCredentials() {
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
-    maxAge: 5
+    maxAge: 15
   },
 
   pages: {
@@ -62,20 +61,14 @@ export const authOptions: NextAuthOptions = {
         });
 
         const user = await res.json();
-
+        process.on('uncaughtException', function (err) {
+          console.log(err);
+        });
         if (!user.token) {
-          // console.log(user);
           return null;
         }
 
         if (res.ok && user) {
-          if (user.user) console.log(user);
-          cookies().set('token', user.token, {
-            maxAge: 5,
-            path: '/',
-            httpOnly: true
-          });
-
           return user;
         } else {
           return null;
@@ -97,7 +90,6 @@ export const authOptions: NextAuthOptions = {
     jwt: async function ({ token, user, account }) {
       if (account && user) {
         // Save the access token and refresh token in the JWT on the initial login
-
         cookies().set('token', user.token! || account.id_token!, {
           maxAge: 5,
           path: '/',
@@ -106,9 +98,9 @@ export const authOptions: NextAuthOptions = {
 
         cookies().set(
           'refresh_token',
-          user.refreshToken! || account.refresh_token!,
+          user.refresh_token! || account.refresh_token!,
           {
-            maxAge: 15,
+            maxAge: 45,
             path: '/',
             httpOnly: true
           }
@@ -125,7 +117,7 @@ export const authOptions: NextAuthOptions = {
           accessTokenExpires: Math.floor(
             Date.now() / 2000000 + account.expires_at!
           ),
-          refreshToken: user.refreshToken || user.refresh_token,
+          refreshToken: account.refresh_token || user.refresh_token,
           expires_at: Math.floor(Date.now() / 2000000 + account.expires_at!),
           refresh_token: account.refresh_token
         };
@@ -170,7 +162,7 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       if (token) {
-        session.id = token.id;
+        session.id = token.id!;
         session.cod_usuario = token.cod_usuario;
         session.nome = token.nome;
         session.email = token.email;
