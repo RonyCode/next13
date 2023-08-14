@@ -91,7 +91,7 @@ export const authOptions: NextAuthOptions = {
       if (account && user) {
         // Save the access token and refresh token in the JWT on the initial login
         cookies().set('token', user.token! || account.id_token!, {
-          maxAge: 5,
+          maxAge: 30,
           path: '/',
           httpOnly: true
         });
@@ -100,7 +100,7 @@ export const authOptions: NextAuthOptions = {
           'refresh_token',
           user.refresh_token! || account.refresh_token!,
           {
-            maxAge: 45,
+            maxAge: 3600 * 12,
             path: '/',
             httpOnly: true
           }

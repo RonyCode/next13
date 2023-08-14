@@ -22,25 +22,23 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
   const refreshToken = request.cookies.get('refresh_token')?.value;
 
+  const res = await fetch(`${process.env.API_NEXT}/refresh-token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(token)
+  });
+  const user = await res.json();
+  console.log(user);
+  if (!user.token) {
+    return null;
+  }
+
   if (!token) {
     if (!refreshToken) {
       if (request.nextUrl.pathname === '/login') {
         return NextResponse.next();
       }
       return NextResponse.redirect(new URL('/login', request.url));
-    }
-
-    const res = await fetch(`${process.env.API_NEXT}/refresh-token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(refreshToken)
-    });
-
-    const user = await res.json();
-
-    if (!user.token) {
-      console.log(user);
-      return null;
     }
   }
   if (request.nextUrl.pathname === '/login') {
