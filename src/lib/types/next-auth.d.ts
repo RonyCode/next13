@@ -1,7 +1,4 @@
-import type { Account, Session, User } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
-
-import { type } from '@auth/core/types';
+import type { Account } from 'next-auth';
 
 type UserId = string;
 

@@ -5,8 +5,18 @@ import { NextResponse } from 'next/server';
 export async function middleware(request: NextRequest) {
   const allowedOrigins =
     process.env.NODE_ENV === 'production'
-      ? ['https://www.example.com']
-      : ['http://localhost:3000', 'http://gsoapi/'];
+      ? [
+          `${process.env.API_GSO}`,
+          `${process.env.API_NEXT}`,
+          `${process.env.NEXTAUTH_URL}`,
+          'http://127.0.0.1:3000'
+        ]
+      : [
+          `${process.env.API_GSO}`,
+          `${process.env.API_NEXT}`,
+          `${process.env.NEXTAUTH_URL}`,
+          'http://127.0.0.1:3000'
+        ];
   const origin = request.headers.get('origin');
   if (origin && !allowedOrigins.includes(origin)) {
     return new NextResponse(null, {
@@ -20,32 +30,26 @@ export async function middleware(request: NextRequest) {
   }
 
   const token = request.cookies.get('token')?.value;
-  const refreshToken = request.cookies.get('refresh_token')?.value;
 
-  const res = await fetch(`${process.env.API_NEXT}/refresh-token`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(token)
-  });
-  const user = await res.json();
-  console.log(user);
-  if (!user.token) {
-    return null;
-  }
-
-  if (!token) {
-    if (!refreshToken) {
-      if (request.nextUrl.pathname === '/login') {
-        return NextResponse.next();
-      }
-      return NextResponse.redirect(new URL('/login', request.url));
+  console.log(token);
+  if (!token || Date.now() > JSON.parse(token).iat) {
+    if (request.nextUrl.pathname === '/login') {
+      return NextResponse.next();
     }
+    return NextResponse.redirect(new URL('/login', request.url));
   }
+
   if (request.nextUrl.pathname === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 }
 
 export const config = {
-  matcher: ['/login', '/dashboard/:path*']
+  matcher: [
+    '/dashboard/:path*',
+    '/private/:path*',
+    '/about/:path*',
+    '/contact/:path*',
+    '/profile/:path*'
+  ]
 };

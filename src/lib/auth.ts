@@ -18,14 +18,6 @@ function getGoogleCredentials() {
 }
 
 export const authOptions: NextAuthOptions = {
-  session: {
-    strategy: 'jwt',
-    maxAge: 15
-  },
-
-  pages: {
-    signIn: '/login'
-  },
   providers: [
     GoogleProvider({
       clientId: getGoogleCredentials().clientId,
@@ -51,7 +43,7 @@ export const authOptions: NextAuthOptions = {
         };
 
         if (!payload.email || !payload.senha) {
-          throw new Error('Por favor digite um email e uma senha válidos');
+          throw new Error('Email ou senha inválido! 🤯');
         }
 
         const res = await fetch(`${process.env.API_NEXT}/login`, {
@@ -61,9 +53,6 @@ export const authOptions: NextAuthOptions = {
         });
 
         const user = await res.json();
-        process.on('uncaughtException', function (err) {
-          console.log(err);
-        });
         if (!user.token) {
           return null;
         }
@@ -76,7 +65,6 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
-  secret: process.env.JWT_SECRET,
 
   theme: {
     colorScheme: 'auto',
@@ -84,14 +72,28 @@ export const authOptions: NextAuthOptions = {
     logo: '/images/logo.png'
   },
 
+  session: {
+    strategy: 'jwt',
+    maxAge: 15
+  },
+
+  pages: {
+    signIn: '/login'
+  },
+
+  secret: process.env.JWT_SECRET,
   debug: process.env.NODE_ENV === 'development',
 
   callbacks: {
     jwt: async function ({ token, user, account }) {
       if (account && user) {
+        if (account.provider === 'google') {
+          console.log('teste');
+        }
+
         // Save the access token and refresh token in the JWT on the initial login
         cookies().set('token', user.token! || account.id_token!, {
-          maxAge: 30,
+          maxAge: 120,
           path: '/',
           httpOnly: true
         });
@@ -105,6 +107,11 @@ export const authOptions: NextAuthOptions = {
             httpOnly: true
           }
         );
+        //=====================================================================
+
+        if (account.provider === 'google') {
+          console.log('teste');
+        }
 
         return {
           ...token,
