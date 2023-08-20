@@ -29,15 +29,13 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  const token = request.cookies.get('token')?.value;
-
-  console.log(token);
-  if (!token || Date.now() > JSON.parse(token).iat) {
-    if (request.nextUrl.pathname === '/login') {
-      return NextResponse.next();
-    }
-    return NextResponse.redirect(new URL('/login', request.url));
+  // const token = request.cookies.get('token')?.value;
+  //
+  // console.log(token);
+  if (request.nextUrl.pathname === '/login') {
+    return NextResponse.next();
   }
+  return NextResponse.redirect(new URL('/login', request.url));
 
   if (request.nextUrl.pathname === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url));
