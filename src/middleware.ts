@@ -29,19 +29,21 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  // const token = request.cookies.get('token')?.value;
-  //
-  // console.log(token);
-  if (request.nextUrl.pathname === '/login') {
-    return NextResponse.next();
-  }
-  return NextResponse.redirect(new URL('/login', request.url));
+  const token = request.cookies.get('token')?.value;
+  const refreshToken = request.cookies.get('refresh_token')?.value;
 
-  if (request.nextUrl.pathname === '/login') {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+  if (!token) {
+    if (refreshToken) {
+      return NextResponse.redirect(new URL('/refresh-token', request.url));
+    } else {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  } else {
+    if (request.nextUrl.pathname === '/login') {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
   }
 }
-
 export const config = {
   matcher: [
     '/dashboard/:path*',

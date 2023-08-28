@@ -1,5 +1,4 @@
-import type { NextAuthOptions, Session } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { cookies } from 'next/headers';
@@ -88,7 +87,7 @@ export const authOptions: NextAuthOptions = {
 
   session: {
     strategy: 'jwt',
-    maxAge: 120
+    maxAge: 900
   },
 
   pages: {
@@ -111,11 +110,11 @@ export const authOptions: NextAuthOptions = {
 
           const userGoogle = await confereLogado(payload);
 
-          if (userGoogle == null) return null;
+          if (userGoogle == null) return token;
           // Save the access token and refresh token in the JWT on the initial login
           cookies().set({
             name: 'token',
-            value: await userGoogle.token!,
+            value: userGoogle?.token,
             httpOnly: true,
             maxAge: 900,
             path: '/'
@@ -123,32 +122,31 @@ export const authOptions: NextAuthOptions = {
 
           cookies().set({
             name: 'refresh_token',
-            value: userGoogle.refresh_token!,
+            value: userGoogle?.refresh_token,
             httpOnly: true,
             maxAge: 3600 * 12,
             path: '/'
           });
-          //=====================================================================
-
+          // =====================================================================
           return {
             ...token,
-            cod_usuario: userGoogle.cod_usuario,
-            nome: userGoogle.nome,
-            email: userGoogle.email,
-            image: userGoogle.image,
-            picture: userGoogle.image,
-            senha: userGoogle.senha,
-            token: userGoogle.token,
-            access_Token: userGoogle.token,
-            refresh_token: userGoogle.refresh_token,
-            data_expirar_token: userGoogle.data_expirar_token,
-            expires_at: userGoogle.data_expirar_token
+            cod_usuario: userGoogle?.cod_usuario,
+            nome: userGoogle?.nome,
+            email: userGoogle?.email,
+            image: userGoogle?.image,
+            picture: userGoogle?.image,
+            senha: userGoogle?.senha,
+            token: userGoogle?.token,
+            access_Token: userGoogle?.token,
+            refresh_token: userGoogle?.refresh_token,
+            data_expirar_token: userGoogle?.data_expirar_token,
+            expires_at: userGoogle?.data_expirar_token
           };
         } else {
           // Save the access token and refresh token in the JWT on the initial login
           cookies().set({
             name: 'token',
-            value: user.token!,
+            value: user?.token,
             httpOnly: true,
             maxAge: 900,
             path: '/'
@@ -156,7 +154,7 @@ export const authOptions: NextAuthOptions = {
 
           cookies().set({
             name: 'refresh_token',
-            value: user.refresh_token!,
+            value: user?.refresh_token,
             httpOnly: true,
             maxAge: 3600 * 12,
             path: '/'
@@ -165,36 +163,35 @@ export const authOptions: NextAuthOptions = {
 
           return {
             ...token,
-            cod_usuario: user.cod_usuario,
-            nome: user.nome,
-            email: user.email,
-            image: user.image,
-            picture: user.image,
-            senha: user.senha,
-            token: user.token,
-            access_Token: user.token,
-            refresh_token: user.refresh_token,
-            data_expirar_token: user.data_expirar_token,
-            expires_at: user.data_expirar_token
+            cod_usuario: user?.cod_usuario,
+            nome: user?.nome,
+            email: user?.email,
+            image: user?.image,
+            picture: user?.image,
+            senha: user?.senha,
+            token: user?.token,
+            access_Token: user?.token,
+            refresh_token: user?.refresh_token,
+            data_expirar_token: user?.data_expirar_token,
+            expires_at: user?.data_expirar_token
           };
         }
       }
-    }
-  },
+      return token;
+    },
 
-  async session({ session, token }) {
-    if (token) {
-      session.cod_usuario = token.cod_usuario;
-      session.nome = token.nome;
-      session.email = token.email;
-      session.image = token.image;
-      session.picture = token.picture;
-      session.senha = token.senha;
-      session.token = token.token;
-      session.access_Token = token.access_Token;
-      session.refresh_token = token.refresh_token;
-      session.data_expirar_token = token.data_expirar_token;
-      session.expires_at = token.expires_at;
+    async session({ session, token }) {
+      session.cod_usuario = token?.cod_usuario;
+      session.nome = token?.nome;
+      session.email = token?.email;
+      session.image = token?.image;
+      session.picture = token?.picture;
+      session.senha = token?.senha;
+      session.token = token?.token;
+      session.access_Token = token?.access_Token;
+      session.refresh_token = token?.refresh_token;
+      session.data_expirar_token = token?.data_expirar_token;
+      session.expires_at = token?.expires_at;
       return session;
     }
   }
