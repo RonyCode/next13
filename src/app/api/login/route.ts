@@ -7,7 +7,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const origin: string | null = request.headers.get('origin');
   const remaining: number = await limiter.removeTokens(1);
   const body: SignInSchema = await request.json();
-  const { email, senha } = body;
+  const { email, senha, nome, image } = body;
 
   if (!email || !senha)
     return NextResponse.json({ message: 'Erro parametros necessários' });
@@ -28,14 +28,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': origin || '*'
     },
-    body: JSON.stringify({ email, senha })
+    body: JSON.stringify({ email, senha, nome, image })
   });
 
   if (!res.ok) {
     const { message } = await res.json();
-    console.log(message);
+
     return NextResponse.json({ message: message }, { status: 401 });
   }
   const { data } = await res.json();
+
   return NextResponse.json(data);
 }

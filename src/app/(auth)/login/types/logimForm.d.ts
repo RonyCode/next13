@@ -5,4 +5,6 @@ interface LoginForm {
   isLoading: boolean;
   email: string;
   senha: string;
+  nome: string;
+  image: string;
 }
