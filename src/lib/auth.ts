@@ -17,6 +17,25 @@ function getGoogleCredentials() {
   };
 }
 
+export const confereLogado = async (payload: {
+  email: string;
+  senha: string;
+  nome?: string;
+  image?: string;
+}) => {
+  const res = await fetch(`${process.env.API_NEXT}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (res.ok) {
+    return await res.json();
+  } else {
+    return null;
+  }
+};
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -32,31 +51,26 @@ export const authOptions: NextAuthOptions = {
           type: 'text',
           placeholder: 'exemplo@email.com'
         },
-        senha: { label: 'Senha', type: 'password' }
+        senha: { label: 'Senha', type: 'password' },
+        nome: { label: 'Nome', type: 'text' },
+        image: { label: 'Image', type: 'text' }
       },
 
       async authorize(credentials) {
         const payload = {
-          email: credentials?.email,
-          senha: credentials?.senha
+          email: credentials!.email,
+          senha: credentials!.senha,
+          nome: credentials!.nome,
+          image: credentials!.image
         };
 
         if (!payload.email || !payload.senha) {
           throw new Error('Email ou senha inválido! 🤯');
         }
 
-        const res = await fetch(`${process.env.API_NEXT}/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+        const user = await confereLogado(payload);
 
-        const user = await res.json();
-        if (!user.token) {
-          return null;
-        }
-
-        if (res.ok && user) {
+        if (user) {
           return user;
         } else {
           return null;
@@ -73,7 +87,7 @@ export const authOptions: NextAuthOptions = {
 
   session: {
     strategy: 'jwt',
-    maxAge: 15
+    maxAge: 900
   },
 
   pages: {
@@ -86,72 +100,99 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async function ({ token, user, account }) {
       if (account && user) {
-        let userGoogle;
         if (account.provider === 'google') {
           const payload = {
-            email: token?.email,
-            senha: token?.sub,
-            nome: token?.name,
-            image: token?.picture
+            email: token.email!,
+            senha: String(token!.sub)!,
+            nome: token.name!,
+            image: token.picture!
           };
 
-          const res = await fetch(`${process.env.API_NEXT}/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+          const userGoogle = await confereLogado(payload);
+
+          if (userGoogle == null) return token;
+          // Save the access token and refresh token in the JWT on the initial login
+          cookies().set({
+            name: 'token',
+            value: userGoogle?.token,
+            httpOnly: true,
+            maxAge: 900,
+            path: '/'
           });
 
-          if (res.ok) {
-            userGoogle = await res.json();
-          } else {
-            return null;
-          }
-        }
-
-        console.log(JSON.stringify(userGoogle));
-        console.log(JSON.stringify(user));
-        // Save the access token and refresh token in the JWT on the initial login
-        cookies().set('token', user.token! && userGoogle.data.token!, {
-          maxAge: 900,
-          path: '/',
-          httpOnly: true
-        });
-
-        cookies().set(
-          'refresh_token',
-          user.refresh_token! && userGoogle.refresh_token!,
-          {
+          cookies().set({
+            name: 'refresh_token',
+            value: userGoogle?.refresh_token,
+            httpOnly: true,
             maxAge: 3600 * 12,
-            path: '/',
-            httpOnly: true
-          }
-        );
-        //=====================================================================
+            path: '/'
+          });
+          // =====================================================================
+          return {
+            ...token,
+            cod_usuario: userGoogle?.cod_usuario,
+            nome: userGoogle?.nome,
+            email: userGoogle?.email,
+            image: userGoogle?.image,
+            picture: userGoogle?.image,
+            senha: userGoogle?.senha,
+            token: userGoogle?.token,
+            access_Token: userGoogle?.token,
+            refresh_token: userGoogle?.refresh_token,
+            data_expirar_token: userGoogle?.data_expirar_token,
+            expires_at: userGoogle?.data_expirar_token
+          };
+        } else {
+          // Save the access token and refresh token in the JWT on the initial login
+          cookies().set({
+            name: 'token',
+            value: user?.token,
+            httpOnly: true,
+            maxAge: 900,
+            path: '/'
+          });
 
-        return {
-          ...token,
-          cod_usuario: user.cod_usuario && userGoogle.cod_usuario,
-          nome: user.nome && userGoogle.nome,
-          email: user.email && userGoogle.email,
-          image: user.image && userGoogle.image,
-          access_Token: user.token && userGoogle.token,
-          refresh_token: user.refresh_token && userGoogle.refresh_token,
-          expires_at: user.data_expirar_token && userGoogle.data_expirar_token
-        };
+          cookies().set({
+            name: 'refresh_token',
+            value: user?.refresh_token,
+            httpOnly: true,
+            maxAge: 3600 * 12,
+            path: '/'
+          });
+          //=====================================================================
+
+          return {
+            ...token,
+            cod_usuario: user?.cod_usuario,
+            nome: user?.nome,
+            email: user?.email,
+            image: user?.image,
+            picture: user?.image,
+            senha: user?.senha,
+            token: user?.token,
+            access_Token: user?.token,
+            refresh_token: user?.refresh_token,
+            data_expirar_token: user?.data_expirar_token,
+            expires_at: user?.data_expirar_token
+          };
+        }
       }
+      return token;
     },
 
     async session({ session, token }) {
-      if (token) {
-        session.cod_usuario = token.cod_usuario;
-        session.nome = token.nome;
-        session.email = token.email;
-        session.image = token.image;
-        session.token = token.token;
-        session.access_Token = token.access_Token;
-        session.refresh_token = token.refresh_token;
-        return session;
-      }
+      session.cod_usuario = token?.cod_usuario;
+      session.nome = token?.nome;
+      session.email = token?.email;
+      session.image = token?.image;
+      session.picture = token?.picture;
+      session.senha = token?.senha;
+      session.token = token?.token;
+      session.access_token = token?.access_token;
+      session.refresh_token = token?.refresh_token;
+      session.data_expirar_token = token?.data_expirar_token;
+      session.expires_at = token?.expires_at;
+      return session;
     }
   }
 };

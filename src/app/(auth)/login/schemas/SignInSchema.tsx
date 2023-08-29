@@ -12,7 +12,9 @@ export const SignInSchema = z.object({
     .regex(minimoCaracteresSenha, {
       message:
         'Senha inválida deve conter no mínimo 8 caracteres com no mínimo uma letra'
-    })
+    }),
+  nome: z.string().nullable(),
+  image: z.string().nullable()
 });
 
 export type SignInSchema = z.infer<typeof SignInSchema>;

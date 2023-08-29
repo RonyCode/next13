@@ -11,10 +11,10 @@ const Dashboard = async () => {
       <section className=" h-screen w-screen bg-slate-800">
         <div className="h-full bg-amber-50 text-black md:container md:mx-auto ">
           {' '}
-          {session?.name}
+          {session?.nome}
           <br /> {session?.nome}
           <br /> {session?.cod_usuario}
-          <br /> {session?.accessToken}
+          <br /> {session?.access_Token}
           <br />
           {session?.email}
         </div>

@@ -12,7 +12,7 @@ export default async function NavbarPrivate() {
         <Link className=" w-auto" href="/">
           <Image
             className=" rounded-2xl hover:shadow-2xl"
-            src="/images/logo.png"
+            src={'/images/logo.png'}
             width={150}
             height={150}
             alt="imagem de logotipo"
