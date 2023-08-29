@@ -1,4 +1,5 @@
 import { ElementType, forwardRef, InputHTMLAttributes, useId } from 'react';
+import InputMask from 'react-input-mask';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
@@ -6,12 +7,13 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   registerInput?: string;
   icon?: ElementType;
 };
-const InputContent = forwardRef<HTMLInputElement, InputProps>(
+const InputContent = forwardRef<HTMLInputElement, InputProps, InputMask>(
   (
     {
       name = '',
       label = '',
       hasError = '',
+      mask = '',
       type = 'text',
       icon: Icon,
       ...props
@@ -30,10 +32,11 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           <span>{Icon && <Icon size={18} />}</span>
           {label}
         </label>
-        <input
+        <InputMask
           type={type}
           id={inputId}
           name={name}
+          mask={mask}
           {...props}
           ref={ref}
           className={`${
