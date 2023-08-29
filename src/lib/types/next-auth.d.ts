@@ -10,7 +10,7 @@ declare module 'next-auth' {
     picture: string;
     senha: string;
     token: string;
-    access_Token: string;
+    access_token: string;
     refresh_token: string;
     data_expirar_token: number;
     expires_at: number;
@@ -24,7 +24,7 @@ declare module 'next-auth' {
     picture: string;
     senha: string;
     token: string;
-    access_Token: string;
+    access_token: string;
     refresh_token: string;
     data_expirar_token: number;
     expires_at: number;
@@ -40,7 +40,7 @@ declare module 'next-auth/jwt' {
     picture: string;
     senha: string;
     token: string;
-    access_Token: string;
+    access_token: string;
     refresh_token: string;
     data_expirar_token: number;
     expires_at: number;

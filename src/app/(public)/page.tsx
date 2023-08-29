@@ -20,8 +20,6 @@ export default async function Home() {
         <pre>{'nome; ' + session?.nome}</pre>
         <pre>{'email: ' + session?.email}</pre>
         <pre>{'image: ' + session?.image}</pre>
-        <pre>{'token: ' + session?.accessToken || session?.access_token}</pre>
-        <pre>{'id: ' + session?.id}</pre>
         <pre>{'cod_usuario: ' + session?.cod_usuario}</pre>
       </div>
     </main>

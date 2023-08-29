@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get('refresh_token')?.value;
 
   if (!token) {
-    if (refreshToken) {
+    if (!refreshToken) {
       return NextResponse.redirect(new URL('/refresh-token', request.url));
     } else {
       return NextResponse.redirect(new URL('/login', request.url));

@@ -37,13 +37,17 @@ export default async function NavbarHome() {
           </ul>
           <div className="flex items-center">
             {session?.nome ? (
-              <div className=" flex items-center ">
-                <Link href="/profile" className=" mx-4 flex">
+              <div className=" flex items-center  ">
+                <Link
+                  href="/profile"
+                  className=" mx-4 flex items-center  p-1  justify-center   shadow-lg hover:shadow-slate-400 rounded-full "
+                >
                   <Image
-                    className="rounded-full  shadow-lg hover:shadow-slate-400"
-                    src={session?.image || '/images/logo.png'}
+                    className="rounded-full "
+                    src={session?.image || '/images/avatar.svg'}
                     width={48}
                     height={48}
+                    object-fit={'contain'}
                     alt="img profile"
                   />
                 </Link>
@@ -51,7 +55,7 @@ export default async function NavbarHome() {
               </div>
             ) : (
               <div className="gap-2 space-x-6">
-                <Link href="/register">Cadastrar</Link>
+                <Link href="/cadastra-usuario">Cadastrar</Link>
                 <Link href="/login">Login</Link>
               </div>
             )}{' '}
