@@ -137,7 +137,7 @@ export const authOptions: NextAuthOptions = {
             picture: userGoogle?.image,
             senha: userGoogle?.senha,
             token: userGoogle?.token,
-            access_Token: userGoogle?.token,
+            access_token: userGoogle?.token,
             refresh_token: userGoogle?.refresh_token,
             data_expirar_token: userGoogle?.data_expirar_token,
             expires_at: userGoogle?.data_expirar_token
@@ -170,7 +170,7 @@ export const authOptions: NextAuthOptions = {
             picture: user?.image,
             senha: user?.senha,
             token: user?.token,
-            access_Token: user?.token,
+            access_token: user?.token,
             refresh_token: user?.refresh_token,
             data_expirar_token: user?.data_expirar_token,
             expires_at: user?.data_expirar_token

@@ -22,6 +22,7 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const inputId = useId();
+
     const error = hasError.length > 0;
 
     return (
@@ -39,6 +40,7 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           name={name}
           mask={mask}
           {...props}
+          inputRef={ref}
           className={`${
             error
               ? 'border-pink-500 text-pink-600  focus:border-pink-500 focus:ring-pink-500'

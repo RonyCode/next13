@@ -37,9 +37,8 @@ const LoginForm = () => {
 
   const hasError =
     (errors.email?.message?.length && errors.email?.message?.length > 0) ||
-    (errors.senha?.message?.length && errors.senha?.message?.length > 0) ||
-    (errors.nome?.message?.length && errors.nome?.message?.length > 0) ||
-    (errors.image?.message?.length && errors.image?.message?.length > 0);
+    (errors.senha?.message?.length && errors.senha?.message?.length > 0);
+
   return (
     <>
       <div className=" w-full  md:w-96  ">

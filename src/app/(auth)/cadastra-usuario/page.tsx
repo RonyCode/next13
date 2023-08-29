@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import RegisterUserForm from '@/app/(auth)/cadastra-usuario/components/RegisterUserForm';
-import LoginForm from '@/app/(auth)/login/components/LoginForm';
 
 const CadastroUsuario: FC = async () => {
   return (
