@@ -5,15 +5,16 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   hasError?: string;
   registerInput?: string;
+  mask?: string;
   icon?: ElementType;
 };
-const InputContent = forwardRef<HTMLInputElement, InputProps, InputMask>(
+const InputContent = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       name = '',
+      mask = '',
       label = '',
       hasError = '',
-      mask = '',
       type = 'text',
       icon: Icon,
       ...props
@@ -38,7 +39,6 @@ const InputContent = forwardRef<HTMLInputElement, InputProps, InputMask>(
           name={name}
           mask={mask}
           {...props}
-          ref={ref}
           className={`${
             error
               ? 'border-pink-500 text-pink-600  focus:border-pink-500 focus:ring-pink-500'
