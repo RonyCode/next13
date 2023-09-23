@@ -1,19 +1,34 @@
 'use server';
 
-import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
+import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
 import { zact } from 'zact/server';
 import { ZodError } from 'zod';
 
-export const validatedAction = zact(SignInSchema)(async ({ email, senha }) => {
-  return { email, senha };
+export const validatedAction = zact(RegisterUserSchema)(async ({
+  email,
+  nome,
+  senha
+}) => {
+  return { email, nome, senha };
 });
-export const signInServerActions = async (data: FormData) => {
+export const registerUserServerActions = async (data: FormData) => {
   try {
     const email = data.get('email') as string;
+    const nome = data.get('nome') as string;
     const senha = data.get('senha') as string;
-    if (!(await validatedAction({ email, senha })))
+    if (
+      !(await validatedAction({
+        email,
+        nome,
+        senha
+      }))
+    )
       new Error('Email ou senha incorretos, tente novamente! 🤯');
-    return await validatedAction({ email, senha });
+    return await validatedAction({
+      email,
+      nome,
+      senha
+    });
   } catch (error) {
     return JSON.parse(JSON.stringify(error as ZodError));
   }

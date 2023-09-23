@@ -7,4 +7,5 @@ interface LoginForm {
   senha: string;
   nome: string;
   image: string;
+  is_user_externo: number;
 }

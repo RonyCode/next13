@@ -14,7 +14,7 @@ const Dashboard = async () => {
           {session?.nome}
           <br /> {session?.nome}
           <br /> {session?.cod_usuario}
-          <br /> {session?.access_Token}
+          <br /> {session?.access_token}
           <br />
           {session?.email}
         </div>

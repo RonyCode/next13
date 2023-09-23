@@ -24,12 +24,13 @@ export const useSignIn = () => {
 
   const signInWithCredentials = async (data: SignInSchema) => {
     try {
-      const { email, senha, nome, image } = data;
+      const { email, senha, nome, image, is_user_externo } = data;
       await signIn('credentials', {
         email,
         senha,
         nome,
         image,
+        is_user_externo,
         redirect: false
       }).then((res) => {
         if (res?.error == null) {

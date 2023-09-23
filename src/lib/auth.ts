@@ -22,6 +22,7 @@ export const confereLogado = async (payload: {
   senha: string;
   nome?: string;
   image?: string;
+  is_user_externo: number;
 }) => {
   const res = await fetch(`${process.env.API_NEXT}/login`, {
     method: 'POST',
@@ -61,7 +62,8 @@ export const authOptions: NextAuthOptions = {
           email: credentials!.email,
           senha: credentials!.senha,
           nome: credentials!.nome,
-          image: credentials!.image
+          image: credentials!.image,
+          is_user_externo: 0!
         };
 
         if (!payload.email || !payload.senha) {
@@ -86,8 +88,7 @@ export const authOptions: NextAuthOptions = {
   },
 
   session: {
-    strategy: 'jwt',
-    maxAge: 900
+    strategy: 'jwt'
   },
 
   pages: {
@@ -105,18 +106,18 @@ export const authOptions: NextAuthOptions = {
             email: token.email!,
             senha: String(token!.sub)!,
             nome: token.name!,
-            image: token.picture!
+            image: token.picture!,
+            is_user_externo: 1!
           };
 
           const userGoogle = await confereLogado(payload);
-
           if (userGoogle == null) return token;
           // Save the access token and refresh token in the JWT on the initial login
           cookies().set({
             name: 'token',
             value: userGoogle?.token,
             httpOnly: true,
-            maxAge: 900,
+            maxAge: 1000,
             path: '/'
           });
 
@@ -124,7 +125,7 @@ export const authOptions: NextAuthOptions = {
             name: 'refresh_token',
             value: userGoogle?.refresh_token,
             httpOnly: true,
-            maxAge: 3600 * 12,
+            maxAge: 900,
             path: '/'
           });
           // =====================================================================
@@ -148,7 +149,7 @@ export const authOptions: NextAuthOptions = {
             name: 'token',
             value: user?.token,
             httpOnly: true,
-            maxAge: 900,
+            maxAge: 1000,
             path: '/'
           });
 
@@ -156,7 +157,7 @@ export const authOptions: NextAuthOptions = {
             name: 'refresh_token',
             value: user?.refresh_token,
             httpOnly: true,
-            maxAge: 3600 * 12,
+            maxAge: 900,
             path: '/'
           });
           //=====================================================================
