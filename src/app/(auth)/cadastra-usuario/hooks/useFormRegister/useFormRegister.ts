@@ -1,16 +1,16 @@
 import { useForm } from 'react-hook-form';
 
-import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
+import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export const useFormLogin = () => {
+export const useFormRegister = () => {
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors }
-  } = useForm<SignInSchema>({
-    resolver: zodResolver(SignInSchema),
+  } = useForm<RegisterUserSchema>({
+    resolver: zodResolver(RegisterUserSchema),
     mode: 'all'
   });
 
