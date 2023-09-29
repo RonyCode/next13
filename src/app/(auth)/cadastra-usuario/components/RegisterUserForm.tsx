@@ -10,7 +10,7 @@ import { useRegister } from '@/app/(auth)/cadastra-usuario/hooks/useRegister/use
 import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
 import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
-import { User } from 'lucide-react';
+import { Phone, User } from 'lucide-react';
 
 const RegisterUserForm = () => {
   const { errors, register } = useFormRegister();
@@ -18,9 +18,9 @@ const RegisterUserForm = () => {
   const [pending, startTransition] = useTransition();
   const handleSubmitCadastro = async (data: FormData) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: RegisterUserSchema | any = await registerUserServerActions(
-      data
-    );
+    const result: RegisterUserSchema | any =
+      await registerUserServerActions(data);
+
     if (!Array.isArray(result?.details)) {
       startTransition(async () => {
         await registerUser(result);
@@ -31,7 +31,10 @@ const RegisterUserForm = () => {
   const hasError =
     (errors.email?.message?.length && errors.email?.message?.length > 0) ||
     (errors.nome?.message?.length && errors.nome?.message?.length > 0) ||
-    (errors.senha?.message?.length && errors.senha?.message?.length > 0);
+    (errors.senha?.message?.length && errors.senha?.message?.length > 0) ||
+    (errors.confirmaSenha?.message?.length &&
+      errors.confirmaSenha?.message?.length > 0) ||
+    (errors.telefone?.message?.length && errors.telefone?.message?.length > 0);
   return (
     <>
       <div className=" w-full gap-8 m-x-12 ">
@@ -53,7 +56,6 @@ const RegisterUserForm = () => {
           <div className="flex flex-col sm:flex-row gap-2">
             <Input.Root className="mb-2 w-full">
               <Input.Content
-                autoFocus={true}
                 {...register('email')}
                 label="Email"
                 icon={User}
@@ -84,10 +86,10 @@ const RegisterUserForm = () => {
 
             <Input.Root className="mb-2 w-full">
               <Input.Content
-                autoFocus={true}
                 {...register('confirmaSenha')}
                 label="Confirma senha"
-                icon={User}
+                type="password"
+                icon={MdPassword}
                 name="confirmaSenha"
                 placeholder="Digite sua senha conforme a primeira"
                 hasError={errors.confirmaSenha?.message}
@@ -96,6 +98,24 @@ const RegisterUserForm = () => {
                 text={
                   errors.confirmaSenha?.message &&
                   '📣 ' + errors.confirmaSenha?.message
+                }
+              />
+            </Input.Root>
+
+            <Input.Root className="mb-2 w-full">
+              <Input.Content
+                {...register('telefone')}
+                mask="(99) 99999-9999"
+                label="Telefone"
+                type="text"
+                icon={Phone}
+                name="telefone"
+                placeholder="Digite sua senha conforme a primeira"
+                hasError={errors.telefone?.message}
+              />
+              <Input.HelpText
+                text={
+                  errors.telefone?.message && '📣 ' + errors.telefone?.message
                 }
               />
             </Input.Root>

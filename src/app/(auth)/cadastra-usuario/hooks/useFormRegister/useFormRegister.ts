@@ -10,8 +10,16 @@ export const useFormRegister = () => {
     setError,
     formState: { errors }
   } = useForm<RegisterUserSchema>({
+    mode: 'all',
+    criteriaMode: 'all',
     resolver: zodResolver(RegisterUserSchema),
-    mode: 'all'
+    defaultValues: {
+      email: '',
+      nome: '',
+      senha: '',
+      confirmaSenha: '',
+      telefone: ''
+    }
   });
 
   return {

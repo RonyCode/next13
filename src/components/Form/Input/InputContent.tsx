@@ -22,9 +22,7 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const inputId = useId();
-
     const error = hasError.length > 0;
-
     return (
       <div className=" min-w-screen flex flex-col">
         <label
@@ -35,11 +33,12 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           {label}
         </label>
         <InputMask
+          {...props}
+          maskChar=" "
           type={type}
           id={inputId}
           name={name}
           mask={mask}
-          {...props}
           inputRef={ref}
           className={`${
             error
