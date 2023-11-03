@@ -22,7 +22,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const res = await fetch(`${process.env.API_GSO}/login/auth`, {
+  const res = await fetch(`${process.env.API_GSO}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       is_user_externo
     })
   });
+  console.log(res);
 
   if (!res.ok) {
     const { message } = await res.json();

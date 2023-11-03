@@ -39,6 +39,7 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           name={name}
           mask={mask}
+          ref={ref}
           inputRef={ref}
           className={`${
             error
