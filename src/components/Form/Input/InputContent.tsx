@@ -38,7 +38,8 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           id={inputId}
           name={name}
-          mask={mask}
+          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          mask={mask} // @ts-ignore
           ref={ref}
           inputRef={ref}
           className={`${

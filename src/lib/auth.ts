@@ -53,16 +53,13 @@ export const authOptions: NextAuthOptions = {
           placeholder: 'exemplo@email.com'
         },
         senha: { label: 'Senha', type: 'password' },
-        nome: { label: 'Nome', type: 'text' },
-        image: { label: 'Image', type: 'text' }
+        is_user_externo: { label: 'user', type: 'text' }
       },
 
       async authorize(credentials) {
         const payload = {
           email: credentials!.email,
           senha: credentials!.senha,
-          nome: credentials!.nome,
-          image: credentials!.image,
           is_user_externo: 0!
         };
 
@@ -104,9 +101,7 @@ export const authOptions: NextAuthOptions = {
         if (account.provider === 'google') {
           const payload = {
             email: token.email!,
-            senha: String(token!.sub)!,
-            nome: token.name!,
-            image: token.picture!,
+            senha: String(token!.sub)! + 'a',
             is_user_externo: 1!
           };
 
