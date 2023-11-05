@@ -20,8 +20,6 @@ function getGoogleCredentials() {
 export const confereLogado = async (payload: {
   email: string;
   senha: string;
-  nome?: string;
-  image?: string;
   is_user_externo: number;
 }) => {
   const res = await fetch(`${process.env.API_NEXT}/login`, {
@@ -53,7 +51,7 @@ export const authOptions: NextAuthOptions = {
           placeholder: 'exemplo@email.com'
         },
         senha: { label: 'Senha', type: 'password' },
-        is_user_externo: { label: 'user', type: 'text' }
+        is_user_externo: { label: 'User Externo', type: 'text' }
       },
 
       async authorize(credentials) {

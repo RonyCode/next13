@@ -22,7 +22,6 @@ const LoginForm = () => {
   const handleSubmitLogin = async (data: FormData) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: SignInSchema | any = await signInServerActions(data);
-    console.log(result);
     if (!Array.isArray(result?.details)) {
       startTransition(async () => {
         await signInWithCredentials(result);

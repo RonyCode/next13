@@ -34,7 +34,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       is_user_externo
     })
   });
-  console.log(await res.json());
 
   if (!res.ok) {
     const { message } = await res.json();
