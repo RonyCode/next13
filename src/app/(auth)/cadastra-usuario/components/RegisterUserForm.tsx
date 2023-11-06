@@ -10,7 +10,7 @@ import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/Regist
 import { registerUserServerActions } from '@/app/(auth)/precadastro-usuario/actions/preRegisterUserServerAction';
 import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
-import { Phone, User } from 'lucide-react';
+import { User } from 'lucide-react';
 
 const RegisterUserForm = () => {
   const { errors, register } = useFormRegister();

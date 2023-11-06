@@ -20,7 +20,7 @@ function getGoogleCredentials() {
 export const confereLogado = async (payload: {
   email: string;
   senha: string;
-  is_user_externo: number;
+  is_user_external: number;
 }) => {
   const res = await fetch(`${process.env.API_NEXT}/login`, {
     method: 'POST',
@@ -28,6 +28,7 @@ export const confereLogado = async (payload: {
     body: JSON.stringify(payload)
   });
 
+  console.log(payload);
   if (res.ok) {
     return await res.json();
   } else {
@@ -51,14 +52,14 @@ export const authOptions: NextAuthOptions = {
           placeholder: 'exemplo@email.com'
         },
         senha: { label: 'Senha', type: 'password' },
-        is_user_externo: { label: 'User Externo', type: 'text' }
+        is_user_external: { label: 'User Externo', type: 'text' }
       },
 
       async authorize(credentials) {
         const payload = {
           email: credentials!.email,
           senha: credentials!.senha,
-          is_user_externo: 0!
+          is_user_external: 0!
         };
 
         if (!payload.email || !payload.senha) {
@@ -100,7 +101,7 @@ export const authOptions: NextAuthOptions = {
           const payload = {
             email: token.email!,
             senha: String(token!.sub)! + 'a',
-            is_user_externo: 1!
+            is_user_external: 1!
           };
 
           const userGoogle = await confereLogado(payload);

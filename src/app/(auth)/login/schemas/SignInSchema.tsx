@@ -13,7 +13,7 @@ export const SignInSchema = z.object({
       message:
         'Senha inválida deve conter no mínimo 8 caracteres com no mínimo uma letra'
     }),
-  is_user_externo: z.number().nullable()
+  is_user_external: z.number().nullable()
 });
 
 export type SignInSchema = z.infer<typeof SignInSchema>;
