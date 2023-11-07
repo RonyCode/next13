@@ -24,11 +24,11 @@ export const useSignIn = () => {
 
   const signInWithCredentials = async (data: SignInSchema) => {
     try {
-      const { email, senha, is_user_externo } = data;
+      const { email, senha, is_user_external } = data;
       await signIn('credentials', {
         email,
         senha,
-        is_user_externo,
+        is_user_external,
         redirect: false
       }).then((res) => {
         if (res?.error == null) {

@@ -55,7 +55,7 @@ export default async function NavbarHome() {
               </div>
             ) : (
               <div className="gap-2 space-x-6">
-                <Link href="/cadastra-usuario">Cadastrar</Link>
+                <Link href="/precadastro-usuario">Cadastrar</Link>
                 <Link href="/login">Login</Link>
               </div>
             )}{' '}

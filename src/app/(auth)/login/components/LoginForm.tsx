@@ -90,7 +90,7 @@ const LoginForm = () => {
           </div>
         </form>
 
-        <h1 className="py-4 text-center text-xl">OR</h1>
+        <h1 className="py-4 text-center text-xl">Entrar com</h1>
 
         <Button
           disabled={pending}

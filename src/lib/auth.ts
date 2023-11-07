@@ -28,7 +28,6 @@ export const confereLogado = async (payload: {
     body: JSON.stringify(payload)
   });
 
-  console.log(payload);
   if (res.ok) {
     return await res.json();
   } else {

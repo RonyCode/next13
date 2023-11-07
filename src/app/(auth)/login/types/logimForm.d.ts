@@ -1,3 +1,5 @@
+import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
+
 interface LoginForm {
   handleSubmitLogin: FormData<FormDataEvent>;
   signInWithGoogle: () => Promise<void>;
@@ -7,5 +9,5 @@ interface LoginForm {
   senha: string;
   nome: string;
   image: string;
-  is_user_externo: number;
+  is_user_external: number;
 }

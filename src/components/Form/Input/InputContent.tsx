@@ -8,7 +8,8 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   mask?: string;
   icon?: ElementType;
 };
-const InputContent = forwardRef<HTMLInputElement, InputProps>(
+
+const InputContent = forwardRef<InputHTMLAttributes<InputProps>, InputProps>(
   (
     {
       name = '',
@@ -17,9 +18,9 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
       hasError = '',
       type = 'text',
       icon: Icon,
-      ...props
+      ...rest
     },
-    ref
+    ref = null
   ) => {
     const inputId = useId();
     const error = hasError.length > 0;
@@ -32,8 +33,9 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           <span>{Icon && <Icon size={18} />}</span>
           {label}
         </label>
+
         <InputMask
-          {...props}
+          {...rest}
           maskChar=" "
           type={type}
           id={inputId}

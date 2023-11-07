@@ -3,7 +3,7 @@ import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import RegisterUserForm from '@/app/(auth)/cadastra-usuario/components/RegisterUserForm';
+import PreRegisterUserForm from '@/app/(auth)/precadastro-usuario/components/PreRegisterUserForm';
 
 const CadastroUsuario: FC = async () => {
   return (
@@ -20,7 +20,7 @@ const CadastroUsuario: FC = async () => {
               />
             </Link>
           </div>
-          <RegisterUserForm />
+          <PreRegisterUserForm />
         </div>
       </div>
     </>

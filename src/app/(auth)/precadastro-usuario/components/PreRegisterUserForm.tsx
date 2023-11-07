@@ -12,7 +12,7 @@ import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
 import { Phone, User } from 'lucide-react';
 
-const RegisterUserForm = () => {
+const PreRegisterUserForm = () => {
   const { errors, register } = useFormRegister();
   const { registerUser } = useRegister();
   const [pending, startTransition] = useTransition();
@@ -52,67 +52,24 @@ const RegisterUserForm = () => {
               />
             </Input.Root>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Input.Root className="mb-2 w-full">
-              <Input.Content
-                {...register('senha')}
-                icon={MdPassword}
-                label="Senha"
-                name="senha"
-                placeholder="Digite sua senha"
-                type="password"
-                hasError={errors.senha?.message}
-              />
-              <Input.HelpText
-                text={errors.senha?.message && '📣 ' + errors.senha?.message}
-              />
-            </Input.Root>
 
-            <Input.Root className="mb-2 w-full">
-              <Input.Content
-                {...register('confirmaSenha')}
-                label="Confirma senha"
-                type="password"
-                icon={MdPassword}
-                name="confirmaSenha"
-                placeholder="Digite sua senha conforme a primeira"
-                hasError={errors.confirmaSenha?.message}
-              />
-              <Input.HelpText
-                text={
-                  errors.confirmaSenha?.message &&
-                  '📣 ' + errors.confirmaSenha?.message
-                }
-              />
-            </Input.Root>
-          </div>
-          <div className="mt-3 flex items-center justify-between ">
+          <div className="mt-3">
             <Button
               isLoading={pending}
               disabled={hasError || pending}
               variant="default"
-              className="mr-2 w-full max-w-sm p-2"
+              className="mr-2 w-2/6 max-w-sm p-2 focus:ring-opacity-50 float-right"
               type="submit"
             >
-              Cancelar
-            </Button>
-            <Button
-              isLoading={pending}
-              disabled={hasError || pending}
-              variant="default"
-              className="mr-2 w-full max-w-sm p-2 focus:ring-opacity-50"
-              type="submit"
-            >
-              Cadastrar
+              Enviar
             </Button>
           </div>
         </form>
-
-        <div className="text-center text-xs text-gray-500 mt-12">
-          &copy;2023 RCode All rights reserved.
-        </div>
+      </div>
+      <div className="text-center text-xs text-gray-500">
+        &copy;2023 RCode All rights reserved.
       </div>
     </>
   );
 };
-export default RegisterUserForm;
+export default PreRegisterUserForm;
