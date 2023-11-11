@@ -10,7 +10,7 @@ export const useRegister = () => {
     try {
       const { email, senha, nome, confirmaSenha, telefone } = data;
 
-      const res = await fetchWrapper('/api/cadastrar-usuario', {
+      await fetchWrapper('adasdasdasssssss/api/cadastrar-usuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

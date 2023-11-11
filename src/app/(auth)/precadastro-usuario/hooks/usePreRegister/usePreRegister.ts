@@ -1,21 +1,21 @@
 'use client';
 import { toast } from 'react-toastify';
 
-import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
+import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
 import { fetchWrapper } from '@/functions/fetch';
 import { z } from 'zod';
 
-export const useRegister = () => {
-  const registerUser = async (data: RegisterUserSchema) => {
+export const usePreRegister = () => {
+  const preRegisterUser = async (data: PreRegisterUserSchema) => {
     try {
-      const { email, senha, nome, confirmaSenha, telefone } = data;
+      const { email } = data;
 
-      const res = await fetchWrapper('/api/cadastrar-usuario', {
+      await fetchWrapper('/api/pre-cadastro-usuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, nome, senha, confirmaSenha, telefone })
+        body: JSON.stringify({ email })
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -29,6 +29,6 @@ export const useRegister = () => {
   };
 
   return {
-    registerUser
+    preRegisterUser
   };
 };

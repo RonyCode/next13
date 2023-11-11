@@ -1,24 +1,20 @@
 import { useForm } from 'react-hook-form';
 
-import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
+import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export const useFormRegister = () => {
+export const useFormPreRegister = () => {
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors }
-  } = useForm<RegisterUserSchema>({
+  } = useForm<PreRegisterUserSchema>({
     mode: 'all',
     criteriaMode: 'all',
-    resolver: zodResolver(RegisterUserSchema),
+    resolver: zodResolver(PreRegisterUserSchema),
     defaultValues: {
-      email: '',
-      nome: '',
-      senha: '',
-      confirmaSenha: '',
-      telefone: ''
+      email: ''
     }
   });
 

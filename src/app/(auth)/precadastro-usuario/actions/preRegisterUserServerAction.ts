@@ -5,38 +5,16 @@ import { zact } from 'zact/server';
 import { ZodError } from 'zod';
 
 export const validatedAction = zact(PreRegisterUserSchema)(async ({
-  email,
-  nome,
-  senha,
-  confirmaSenha,
-  telefone
+  email
 }) => {
-  return { email, nome, senha, confirmaSenha, telefone };
+  return { email };
 });
-export const registerUserServerActions = async (data: FormData) => {
+export const preRegisterUserServerActions = async (data: FormData) => {
   try {
     const email = data.get('email') as string;
-    const nome = data.get('nome') as string;
-    const senha = data.get('senha') as string;
-    const confirmaSenha = data.get('confirmaSenha') as string;
-    const telefone = data.get('telefone') as string;
-    if (
-      !(await validatedAction({
-        email,
-        nome,
-        senha,
-        confirmaSenha,
-        telefone
-      }))
-    )
+    if (!(await validatedAction({ email })))
       new Error('Email ou senha incorretos, tente novamente! 🤯');
-    return await validatedAction({
-      email,
-      nome,
-      senha,
-      confirmaSenha,
-      telefone
-    });
+    return await validatedAction({ email });
   } catch (error) {
     return JSON.parse(JSON.stringify(error as ZodError));
   }

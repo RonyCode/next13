@@ -1,12 +1,9 @@
-import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
+import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
 
 interface RegisterForm {
   handleSubmitLogin: FormData<FormDataEvent>;
   signInWithGoogle: () => Promise<void>;
-  errors: z.Errors<RegisterUserSchema>;
+  errors: z.Errors<PreRegisterUserSchema>;
   isLoading: boolean;
   email: string;
-  nome: string;
-  confirmaSenha: string;
-  senha: string;
 }

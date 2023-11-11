@@ -2,41 +2,39 @@
 
 import * as React from 'react';
 import { useTransition } from 'react';
-import { MdPassword } from 'react-icons/md';
 
 import { useFormRegister } from '@/app/(auth)/cadastra-usuario/hooks/useFormRegister';
-import { useRegister } from '@/app/(auth)/cadastra-usuario/hooks/useRegister/useRegister';
-import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
-import { registerUserServerActions } from '@/app/(auth)/precadastro-usuario/actions/preRegisterUserServerAction';
+import { preRegisterUserServerActions } from '@/app/(auth)/precadastro-usuario/actions/preRegisterUserServerAction';
+import { useFormPreRegister } from '@/app/(auth)/precadastro-usuario/hooks/useFormPreRegister';
+import { usePreRegister } from '@/app/(auth)/precadastro-usuario/hooks/usePreRegister/usePreRegister';
+import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
 import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
-import { Phone, User } from 'lucide-react';
+import { User } from 'lucide-react';
 
 const PreRegisterUserForm = () => {
-  const { errors, register } = useFormRegister();
-  const { registerUser } = useRegister();
+  const { errors, register } = useFormPreRegister();
+  const { preRegisterUser } = usePreRegister();
   const [pending, startTransition] = useTransition();
-  const handleSubmitCadastro = async (data: FormData) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: RegisterUserSchema | any =
-      await registerUserServerActions(data);
 
+  const handleSubmitPreCadastro = async (data: FormData) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: PreRegisterUserSchema | any =
+      await preRegisterUserServerActions(data);
     if (!Array.isArray(result?.details)) {
       startTransition(async () => {
-        await registerUser(result);
+        await preRegisterUser(result);
       });
     }
   };
 
   const hasError =
-    (errors.email?.message?.length && errors.email?.message?.length > 0) ||
-    (errors.senha?.message?.length && errors.senha?.message?.length > 0) ||
-    (errors.confirmaSenha?.message?.length &&
-      errors.confirmaSenha?.message?.length > 0);
+    errors.email?.message?.length && errors.email?.message?.length > 0;
+
   return (
     <>
       <div className=" w-full gap-12 p-2 md:p-8 ">
-        <form action={handleSubmitCadastro}>
+        <form action={handleSubmitPreCadastro}>
           <div className="flex flex-col sm:flex-row gap-2">
             <Input.Root className="mb-2 w-full">
               <Input.Content
