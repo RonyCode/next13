@@ -1,21 +1,17 @@
-'use client';
 import { toast } from 'react-toastify';
 
-import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
 import { fetchWrapper } from '@/functions/fetch';
 import { z } from 'zod';
 
-export const useRegister = () => {
-  const registerUser = async (data: RegisterUserSchema) => {
+export const useCpf = () => {
+  const findPersonByCpf = async (cpf: string, dataNascimento: string) => {
     try {
-      const { email, senha, nome, confirmaSenha, telefone } = data;
-
-      await fetchWrapper('adasdasdasssssss/api/cadastrar-usuario', {
+      await fetchWrapper('/api/cpf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, nome, senha, confirmaSenha, telefone })
+        body: JSON.stringify({ cpf, dataNascimento })
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -29,6 +25,6 @@ export const useRegister = () => {
   };
 
   return {
-    registerUser
+    findPersonByCpf
   };
 };

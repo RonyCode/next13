@@ -1,4 +1,4 @@
-import { RegisterUserSchema } from '@/app/(auth)/cadastra-usuario/schemas/RegisterUserSchema';
+import { RegisterUserSchema } from '@/app/(auth)/cadastro-usuario/[token]/schemas/RegisterUserSchema';
 
 interface RegisterForm {
   handleSubmitLogin: FormData<FormDataEvent>;

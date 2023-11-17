@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { useTransition } from 'react';
 
-import { useFormRegister } from '@/app/(auth)/cadastra-usuario/hooks/useFormRegister';
 import { preRegisterUserServerActions } from '@/app/(auth)/precadastro-usuario/actions/preRegisterUserServerAction';
 import { useFormPreRegister } from '@/app/(auth)/precadastro-usuario/hooks/useFormPreRegister';
 import { usePreRegister } from '@/app/(auth)/precadastro-usuario/hooks/usePreRegister/usePreRegister';

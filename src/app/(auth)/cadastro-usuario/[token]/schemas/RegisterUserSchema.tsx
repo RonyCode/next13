@@ -2,27 +2,6 @@ import { z } from 'zod';
 
 const minimoCaracteresSenha = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-const validarCPF = (inputCPF: string) => {
-  let soma = 0;
-  let resto;
-
-  if (inputCPF == '00000000000') return false;
-  for (let i = 1; i <= 9; i++)
-    soma = soma + parseInt(inputCPF.substring(i - 1, i)) * (11 - i);
-  resto = (soma * 10) % 11;
-
-  if (resto == 10 || resto == 11) resto = 0;
-  if (resto != parseInt(inputCPF.substring(9, 10))) return false;
-
-  soma = 0;
-  for (let i = 1; i <= 10; i++)
-    soma = soma + parseInt(inputCPF.substring(i - 1, i)) * (12 - i);
-  resto = (soma * 10) % 11;
-
-  if (resto == 10 || resto == 11) resto = 0;
-  return resto == parseInt(inputCPF.substring(10, 11));
-};
-
 export const RegisterUserSchema = z
   .object({
     nome: z.string().min(3, {
@@ -31,35 +10,58 @@ export const RegisterUserSchema = z
 
     cpf: z
       .string()
-      .min(11, {
+      .min(14, {
         message: 'Cpf inválido'
       })
-      .max(11, { message: 'Cpf inválido' }),
-
+      .max(14, { message: 'Cpf inválido' })
+      .refine((cpf: string) => {
+        cpf = cpf.replace(/\D+/g, '');
+        if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false;
+        const cpfDigits = cpf.split('').map((el) => +el);
+        const rest = (count: number): number => {
+          return (
+            ((cpfDigits
+              .slice(0, count - 12)
+              .reduce((soma, el, index) => soma + el * (count - index), 0) *
+              10) %
+              11) %
+            10
+          );
+        };
+        return rest(10) === cpfDigits[9] && rest(11) === cpfDigits[10];
+      }, 'Cpf não existe.'),
     endereco: z.string().min(3, {
       message: 'endereço inválido deve conter no mínimo 3 caracteres'
     }),
-
+    numero: z
+      .string()
+      .min(1, {
+        message: 'número inválido deve conter no mínimo 1 caracteres'
+      })
+      .nullable(),
+    cep: z.string().min(9, {
+      message: 'Cep inválido'
+    }),
     cidade: z.string().min(3, {
       message: 'Cidade inválida deve conter no mínimo 3 caracteres'
     }),
-
     estado: z.string().min(2, {
       message: 'Estado deve conter no mínimo 2 caracteres'
     }),
-
+    bairro: z.string().min(3, {
+      message: 'Estado deve conter no mínimo 2 caracteres'
+    }),
     confirmaSenha: z.string(),
-
     telefone: z
       .string()
       .trim()
-      .min(15, { message: 'Telefone inválido' })
+      .min(14, { message: 'Telefone inválido' })
       .trim(),
-
     fotoPerfil: z.string(),
-
+    data_nascimento: z.string().min(10, {
+      message: 'Data inválida'
+    }),
     email: z.string().email({ message: 'Email inválido' }),
-
     senha: z
       .string()
       .min(8, {
@@ -74,10 +76,6 @@ export const RegisterUserSchema = z
   .refine(({ senha, confirmaSenha }) => senha === confirmaSenha, {
     path: ['confirmaSenha'],
     message: 'Senhas não conferem'
-  })
-  .refine(({ cpf }) => validarCPF(cpf), {
-    path: ['cpf'],
-    message: 'Cpf não existe!'
   });
 
 export type RegisterUserSchema = z.infer<typeof RegisterUserSchema>;

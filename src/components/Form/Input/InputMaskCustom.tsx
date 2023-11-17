@@ -5,7 +5,8 @@ import {
   LegacyRef,
   useId
 } from 'react';
-import InputMask from 'react-input-mask';
+
+import { InputMask, InputMaskProps } from '@react-input/mask';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
@@ -13,10 +14,10 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   registerInput?: string;
   mask?: string;
   icon?: ElementType;
-  ref: LegacyRef<InputMask> | undefined;
+  ref: LegacyRef<InputMaskProps> | undefined;
 };
 
-const InputContent = forwardRef<HTMLInputElement, InputProps>(
+const InputmaskCustom = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       name = '',
@@ -41,11 +42,13 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           {label}
         </label>
 
-        <input
+        <InputMask
           {...props}
           type={type}
+          replacement={{ _: /\d/ }}
           id={inputId}
           name={name}
+          disabled={false}
           ref={ref}
           className={`${
             error
@@ -61,4 +64,4 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
-export default InputContent;
+export default InputmaskCustom;

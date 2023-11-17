@@ -20,9 +20,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   });
 
   if (!res.ok) {
-    // const { message } = await res.json();
-    // return NextResponse.json({ message: message }, { status: 400 });
-    return NextResponse.json(await res.json());
+    const { message } = await res.json();
+    return NextResponse.json({ message: message }, { status: 400 });
   }
   // const { data } = await res.json();
   return NextResponse.json(await res.json());
