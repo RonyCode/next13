@@ -58,9 +58,6 @@ const RegisterUserForm = () => {
             <Input.Root className="mb-2 w-full">
               <Input.ContentMasked
                 {...register('cpf')}
-                onKeyUp={debounce(async (e) => {
-                  await getCpfNascimento(e?.target?.value);
-                }, 800)}
                 label="Cpf"
                 icon={FaRegAddressCard}
                 name="cpf"
@@ -75,9 +72,6 @@ const RegisterUserForm = () => {
             <Input.Root className="mb-2 w-48">
               <Input.ContentMasked
                 {...register('data_nascimento')}
-                onKeyUp={debounce(async (e) => {
-                  await getCpfNascimento(e?.target?.value);
-                }, 800)}
                 label="Nascimento"
                 icon={FaBirthdayCake}
                 mask="__/__/____"
@@ -145,8 +139,6 @@ const RegisterUserForm = () => {
                 {...register('cep')}
                 onKeyUp={debounce(async (e) => {
                   await findCep(e?.target?.value);
-                  console.log(await e.target.value);
-                  // fetch data from API with the query
                 }, 800)}
                 label="Cep"
                 icon={MdNumbers}
