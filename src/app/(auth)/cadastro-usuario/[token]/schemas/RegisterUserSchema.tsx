@@ -57,7 +57,6 @@ export const RegisterUserSchema = z
       .trim()
       .min(14, { message: 'Telefone inválido' })
       .trim(),
-    fotoPerfil: z.string(),
     data_nascimento: z.string().min(10, {
       message: 'Data inválida'
     }),

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { FaBirthdayCake, FaCity, FaRegAddressCard } from 'react-icons/fa';
 import { FaTreeCity } from 'react-icons/fa6';
 import { GiModernCity } from 'react-icons/gi';
@@ -15,18 +15,24 @@ import { useRegister } from '@/app/(auth)/cadastro-usuario/[token]/hooks/useRegi
 import { RegisterUserSchema } from '@/app/(auth)/cadastro-usuario/[token]/schemas/RegisterUserSchema';
 import { Input } from '@/components/Form/Input';
 import { useCep } from '@/hooks/useCep';
-import { useCpf } from '@/hooks/useCpf';
-import { useEstados } from '@/hooks/useEstados';
 import Button from '@/ui/Button';
 import debounce from 'lodash.debounce';
 import { Mail, User, Phone } from 'lucide-react';
 
 const RegisterUserForm = () => {
+  const [products, setProducts] = useState({
+    bairro: ''
+  });
+
   const { findCep } = useCep();
   const { errors, register } = useFormRegister();
   const { registerUser } = useRegister();
-  const { getData } = useEstados();
   const [pending, startTransition] = useTransition();
+
+  const handleChangeForm = (data) => {
+    console.log('teste');
+    console.log(data);
+  };
 
   const handleSubmitCadastro = async (data: FormData) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,7 +59,10 @@ const RegisterUserForm = () => {
   return (
     <>
       <div className=" w-full gap-12 p-2 md:p-8 ">
-        <form action={handleSubmitCadastro}>
+        <form
+          action={handleSubmitCadastro}
+          onChange={debounce((data) => handleChangeForm(data), 800)}
+        >
           <div className="flex flex-col sm:flex-row gap-2">
             <Input.Root className="mb-2 w-full">
               <Input.ContentMasked
@@ -137,9 +146,6 @@ const RegisterUserForm = () => {
             <Input.Root className="mb-2 w-48">
               <Input.ContentMasked
                 {...register('cep')}
-                onKeyUp={debounce(async (e) => {
-                  await findCep(e?.target?.value);
-                }, 800)}
                 label="Cep"
                 icon={MdNumbers}
                 name="cep"

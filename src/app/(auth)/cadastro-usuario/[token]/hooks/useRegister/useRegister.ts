@@ -9,7 +9,6 @@ export const useRegister = () => {
   const registerUser = async (data: RegisterUserSchema) => {
     try {
       const { email, senha, nome, confirmaSenha, telefone } = data;
-      console.log('qeweqweqw');
       await fetchWrapper('/api/cadastrar-usuario', {
         method: 'POST',
         headers: {
