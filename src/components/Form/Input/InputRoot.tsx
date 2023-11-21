@@ -7,9 +7,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 const InputRoot = ({ children, ...rest }: InputProps) => {
   return (
-    <section className={twMerge(' min-w-screen flex flex-col', rest.className)}>
+    <div className={twMerge('w-full flex flex-col', rest.className)}>
       {children}
-    </section>
+    </div>
   );
 };
 export default InputRoot;

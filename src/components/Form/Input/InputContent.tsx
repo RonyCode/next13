@@ -1,10 +1,4 @@
-import {
-  ElementType,
-  forwardRef,
-  InputHTMLAttributes,
-  LegacyRef,
-  useId
-} from 'react';
+import { forwardRef, InputHTMLAttributes, LegacyRef } from 'react';
 import InputMask from 'react-input-mask';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -12,39 +6,18 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   hasError?: string;
   registerInput?: string;
   mask?: string;
-  icon?: ElementType;
   ref: LegacyRef<InputMask> | undefined;
 };
 
 const InputContent = forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      name = '',
-      label = '',
-      hasError = '',
-      type = 'text',
-      icon: Icon,
-      ...props
-    },
-    ref
-  ) => {
-    const inputId = useId();
+  ({ name = '', hasError = '', type = 'text', ...props }, ref) => {
     const error = hasError.length > 0;
 
     return (
       <div className=" min-w-screen flex flex-col">
-        <label
-          className="flex items-center gap-2 py-2 text-sm font-bold text-white"
-          htmlFor={inputId}
-        >
-          <span>{Icon && <Icon size={18} />}</span>
-          {label}
-        </label>
-
         <input
           {...props}
           type={type}
-          id={inputId}
           name={name}
           ref={ref}
           className={`${
