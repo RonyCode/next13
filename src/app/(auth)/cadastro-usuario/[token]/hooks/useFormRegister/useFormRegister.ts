@@ -14,11 +14,19 @@ export const useFormRegister = () => {
     criteriaMode: 'all',
     resolver: zodResolver(RegisterUserSchema),
     defaultValues: {
-      email: '',
       nome: '',
+      email: '',
+      cpf: '',
+      data_nascimento: '',
+      telefone: '',
+      cep: '',
+      endereco: '',
+      numero: '',
+      bairro: '',
+      cidade: '',
+      estado: '',
       senha: '',
-      confirmaSenha: '',
-      telefone: ''
+      confirmaSenha: ''
     }
   });
 

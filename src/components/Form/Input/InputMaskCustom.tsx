@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  ElementType,
-  forwardRef,
-  InputHTMLAttributes,
-  LegacyRef,
-  ReactNode
-} from 'react';
+import { ElementType, forwardRef, InputHTMLAttributes, LegacyRef } from 'react';
 
 import { InputMask, InputMaskProps } from '@react-input/mask';
 import { twMerge } from 'tailwind-merge';
@@ -25,7 +19,7 @@ const InputmaskCustom = forwardRef<HTMLInputElement, InputProps>(
     const error = hasError.length > 0;
 
     return (
-      <div className=" min-w-screen ">
+      <div className="min-w-screen flex flex-col">
         <InputMask
           {...props}
           type={type}

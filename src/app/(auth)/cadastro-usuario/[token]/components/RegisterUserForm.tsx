@@ -1,7 +1,21 @@
-import { UserForm } from '@/app/(auth)/cadastro-usuario/[token]/components/UserForm';
+'use client';
 
-const RegisterUserForm = async () => {
-  return <UserForm />;
+import * as React from 'react';
+
+import { useUserStore } from '../../../../../../store/userStore';
+
+const RegisterUserForm = () => {
+  const user = useUserStore((state) => state.state.user);
+  console.log(user);
+  return (
+    <>
+      <h1>
+        cliente side
+        {user.cpf}
+        {user.email}
+      </h1>
+    </>
+  );
 };
 
 // 'use client';

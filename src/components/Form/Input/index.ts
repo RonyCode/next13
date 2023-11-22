@@ -1,4 +1,3 @@
-import InputActions from '@/components/Form/Input/InputActions';
 import InputContent from '@/components/Form/Input/InputContent';
 import InputHelpText from '@/components/Form/Input/InputHelpText';
 import InputLabel from '@/components/Form/Input/InputLabel';
@@ -10,6 +9,5 @@ export const Input = {
   Label: InputLabel,
   Content: InputContent,
   ContentMasked: InputMaskCustom,
-  HelpText: InputHelpText,
-  Actions: InputActions
+  HelpText: InputHelpText
 };

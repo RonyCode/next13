@@ -1,6 +1,4 @@
 export interface UserType {
-  name: string;
-  password: string;
   nome: string;
   email: string;
   cpf: string;
@@ -14,4 +12,9 @@ export interface UserType {
   estado: string;
   senha: string;
   confirmaSenha: string;
+}
+
+export interface UserRegisterError {
+  errors: UserType | null;
+  success: boolean;
 }

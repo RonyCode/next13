@@ -1,21 +1,18 @@
-'use client';
-import { useFormRegister } from '@/app/(auth)/cadastro-usuario/[token]/hooks/useFormRegister';
+import { useUserStore } from '../../../../store/userStore';
 
 interface InputLabelProps {
   text?: string;
 }
 
 const InputHelpText = ({ text }: InputLabelProps) => {
-  const { errors, register } = useFormRegister();
-
   let hasError = false;
   if (text) hasError = text.length > 0;
 
-  console.log(errors);
   return (
     <>
-      <input {...register('cpf')} type="text" hidden />
-      <div>{hasError && <p className="text-sm text-red-600">{text}</p>}</div>
+      <div className="text-sm text-red-600 mb-1">
+        {hasError && <p>{text}</p>}
+      </div>
     </>
   );
 };

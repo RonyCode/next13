@@ -1,4 +1,7 @@
+'use client';
+
 import * as React from 'react';
+import { useTransition } from 'react';
 import { FaBirthdayCake, FaCity } from 'react-icons/fa';
 import { FaTreeCity } from 'react-icons/fa6';
 import { GiModernCity } from 'react-icons/gi';
@@ -12,38 +15,54 @@ import Button from '@/ui/Button';
 import { Mail, Phone, User } from 'lucide-react';
 
 import { submitUserForm } from '../../../../../../actions/userActions';
+import { userErrorRegisterStore } from '../../../../../../store/userErrorRegisterStore';
 import { useUserStore } from '../../../../../../store/userStore';
 
-export const UserForm = async () => {
-  const { email, cep, cidade, cpf, endereco, data_nascimento } =
-    useUserStore.getState().user;
+export const UserForm = () => {
+  const { errors, register } = useFormRegister();
+  // const [pending, startTransition] = useTransition();
+  const dataUser = useUserStore.getState().state.user;
+  const dataUserErro = userErrorRegisterStore((state) => state.user);
+
+  const handleSubmit = async (data: FormData) => {
+    await submitUserForm(data);
+  };
 
   return (
-    <form action={submitUserForm} className="min-w-full px-4 md:px-8">
-      <div className="flex flex-col sm:flex-row gap-2">
+    <form action={handleSubmit} className="min-w-full px-4 md:px-8">
+      {dataUser.cpf}
+      {dataUser.email}
+      <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
           <Input.Label label="Nome" icon={User} htmlFor="nome" />
-          <Input.Content id="nome" name="nome" placeholder="Digite seu nome" />
-          <Input.HelpText text="teste" />
+          <Input.Content
+            {...register('nome')}
+            id="nome"
+            name="nome"
+            placeholder="Digite seu nome"
+            hasError={dataUserErro?.nome || errors.nome?.message}
+          />
+          <Input.HelpText
+            text={
+              (dataUserErro?.nome && '📣 ' + dataUserErro?.nome) ||
+              (errors.nome?.message && '📣 ' + errors.nome?.message)
+            }
+          />
         </Input.Root>
       </div>
-      <ul>
-        <li>{email}</li>
-        <li>{cep}</li>
-        <li>{cidade}</li>
-        <li>{cpf}</li>
-        <li>{endereco}</li>
-        <li>{data_nascimento}</li>
-      </ul>
-      <div className="flex flex-col sm:flex-row gap-2">
+
+      <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
           <Input.Label label="Email" icon={Mail} htmlFor="email" />
           <Input.Content
             name="email"
             id="email"
             placeholder="Digite seu email"
+            hasError={dataUserErro?.email}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.email && '📣 ' + dataUserErro?.email}
+          />
         </Input.Root>
 
         <Input.Root className="w-full md:w-6/12">
@@ -53,11 +72,14 @@ export const UserForm = async () => {
             id="cpf"
             mask="___.___.___-__"
             placeholder="999.999.999-99"
+            hasError={dataUserErro?.cpf}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.cpf && '📣 ' + dataUserErro?.cpf}
+          />
         </Input.Root>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex flex-col sm:flex-row gap-2 my-2 ">
         <Input.Root>
           <Input.Label
             label="Nascimento"
@@ -69,8 +91,14 @@ export const UserForm = async () => {
             name="data_nascimento"
             id="data_nascimento"
             placeholder="99/99/9999"
+            hasError={dataUserErro?.data_nascimento}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={
+              dataUserErro?.data_nascimento &&
+              '📣 ' + dataUserErro?.data_nascimento
+            }
+          />
         </Input.Root>
 
         <Input.Root>
@@ -80,8 +108,11 @@ export const UserForm = async () => {
             name="telefone"
             mask="(__) _____-____"
             placeholder="(99) 99999-9999"
+            hasError={dataUserErro?.telefone}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.telefone && '📣 ' + dataUserErro?.telefone}
+          />
         </Input.Root>
         <Input.Root>
           <Input.Label label="Cep" icon={MdNumbers} htmlFor="cep" />
@@ -90,11 +121,14 @@ export const UserForm = async () => {
             id="cep"
             mask="_____-___"
             placeholder="99999-999"
+            hasError={dataUserErro?.cep}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.cep && '📣 ' + dataUserErro?.cep}
+          />
         </Input.Root>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
           <Input.Label
             label="Endereço"
@@ -105,8 +139,11 @@ export const UserForm = async () => {
             name="endereco"
             id="endereco"
             placeholder="Digite seu endereco"
+            hasError={dataUserErro?.endereco}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.endereco && '📣 ' + dataUserErro?.endereco}
+          />
         </Input.Root>
 
         <Input.Root className="w-full md:w-6/12">
@@ -115,19 +152,25 @@ export const UserForm = async () => {
             name="numero"
             id="numero"
             placeholder="Numero residência"
+            hasError={dataUserErro?.numero}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.numero && '📣 ' + dataUserErro?.numero}
+          />
         </Input.Root>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
           <Input.Label label="Bairro" icon={FaTreeCity} htmlFor="bairro" />
           <Input.Content
             name="bairro"
             id="bairro"
             placeholder="Digite seu bairro"
+            hasError={dataUserErro?.bairro}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.bairro && '📣 ' + dataUserErro?.bairro}
+          />
         </Input.Root>
         <Input.Root>
           <Input.Label label="Cidade" icon={FaCity} htmlFor="cidade" />
@@ -135,8 +178,11 @@ export const UserForm = async () => {
             name="cidade"
             id="cidade"
             placeholder="Digite sua cidade"
+            hasError={dataUserErro?.cidade}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.cidade && '📣 ' + dataUserErro?.cidade}
+          />
         </Input.Root>
 
         <Input.Root>
@@ -145,11 +191,14 @@ export const UserForm = async () => {
             name="estado"
             id="estado"
             placeholder="Digite seu estado"
+            hasError={dataUserErro?.estado}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.estado && '📣 ' + dataUserErro?.estado}
+          />
         </Input.Root>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
           <Input.Label label="Senha" icon={MdPassword} htmlFor="senha" />
           <Input.Content
@@ -157,8 +206,11 @@ export const UserForm = async () => {
             id="senha"
             placeholder="Digite sua senha"
             type="password"
+            hasError={dataUserErro?.senha}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={dataUserErro?.senha && '📣 ' + dataUserErro?.senha}
+          />
         </Input.Root>
 
         <Input.Root>
@@ -172,8 +224,13 @@ export const UserForm = async () => {
             name="confirmaSenha"
             id="confirmaSenha"
             placeholder="Repita sua senha"
+            hasError={dataUserErro?.confirmaSenha}
           />
-          <Input.HelpText text="teste" />
+          <Input.HelpText
+            text={
+              dataUserErro?.confirmaSenha && '📣 ' + dataUserErro?.confirmaSenha
+            }
+          />
         </Input.Root>
       </div>
       <div className=" float-right w-1/2 mt-3 flex items-center justify-between ">
