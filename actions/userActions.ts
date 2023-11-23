@@ -32,8 +32,8 @@ export async function submitUserForm(formData: FormData) {
     });
   }
 
+  revalidatePath('/');
   userErrorRegisterStore.getState().add(resultParse.errors as UserType);
 
-  console.log(resultParse);
-  revalidatePath('/');
+  return resultParse;
 }

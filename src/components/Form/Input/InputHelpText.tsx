@@ -1,5 +1,3 @@
-import { useUserStore } from '../../../../store/userStore';
-
 interface InputLabelProps {
   text?: string;
 }
@@ -11,7 +9,7 @@ const InputHelpText = ({ text }: InputLabelProps) => {
   return (
     <>
       <div className="text-sm text-red-600 mb-1">
-        {hasError && <p>{text}</p>}
+        {hasError && <p> {text}</p>}
       </div>
     </>
   );

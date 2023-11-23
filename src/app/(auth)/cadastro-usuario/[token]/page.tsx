@@ -1,4 +1,4 @@
-import RegisterUserForm from '@/app/(auth)/cadastro-usuario/[token]/components/RegisterUserForm';
+import DataServerUser from '@/app/(auth)/cadastro-usuario/[token]/components/dataServerUser';
 import { UserForm } from '@/app/(auth)/cadastro-usuario/[token]/components/UserForm';
 import { CardWithLogo } from '@/ui/CardWithLogo';
 
@@ -7,17 +7,17 @@ import { userErrorRegisterStore } from '../../../../../store/userErrorRegisterSt
 import { useUserStore } from '../../../../../store/userStore';
 import UserStoreInitialize from '../../../../../store/userStoreInitialize';
 
-const CadastroUsuario = async ({ params }: { params: { token: string } }) => {
+const CadastroUsuario = ({ params }: { params: { token: string } }) => {
   const dataUser = useUserStore.getState().state.user;
-  const dataUserError = userErrorRegisterStore.getState().user;
-
+  const dataUserErro = userErrorRegisterStore.getState().user;
+  console.log(dataUser);
+  console.log(dataUserErro);
   return (
     <>
       <CardWithLogo>
         <UserForm />
         <UserStoreInitialize user={dataUser} />
-        <UserErrorRegisterInitializeStore userError={dataUserError} />
-        <RegisterUserForm />
+        <UserErrorRegisterInitializeStore userError={dataUserErro} />
       </CardWithLogo>
     </>
   );

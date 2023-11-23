@@ -1,21 +1,10 @@
-'use client';
-
 import * as React from 'react';
 
 import { useUserStore } from '../../../../../../store/userStore';
 
-const RegisterUserForm = () => {
-  const user = useUserStore((state) => state.state.user);
-  console.log(user);
-  return (
-    <>
-      <h1>
-        cliente side
-        {user.cpf}
-        {user.email}
-      </h1>
-    </>
-  );
+export const dataServerUser = (data: string) => {
+  const user = useUserStore.getState().state.user;
+  return data;
 };
 
 // 'use client';
@@ -42,7 +31,7 @@ const RegisterUserForm = () => {
 //
 // import { submitUserForm } from '../../../../../../actions/userActions';
 
-// const RegisterUserForm = () => {
+// const DataServerUser = () => {
 //   const { findCep } = useCep();
 //   const { errors, register } = useFormRegister();
 //   const [pending, startTransition] = useTransition();
@@ -291,4 +280,4 @@ const RegisterUserForm = () => {
 //     </>
 //   );
 // };
-export default RegisterUserForm;
+// export default DataServerUser;

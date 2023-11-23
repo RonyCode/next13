@@ -11,7 +11,7 @@ type InitializeProps = {
 
 const UserStoreInitialize = ({ user }: InitializeProps) => {
   const initialize = useRef(false);
-  if (user && user.email != '') {
+  if (!initialize.current) {
     useUserStore.setState({ state: { user } });
     initialize.current = true;
   }
