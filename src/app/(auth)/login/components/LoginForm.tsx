@@ -17,16 +17,12 @@ import { User } from 'lucide-react';
 const LoginForm = () => {
   const { errors, register } = useFormLogin();
   const { signInWithGoogle, signInWithCredentials } = useSignIn();
-  // eslint-disable-next-line prefer-const
-  let [pending, startTransition] = useTransition();
+  const [pending, startTransition] = useTransition();
   const handleSubmitLogin = async (data: FormData) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: SignInSchema | any = await signInServerActions(data);
-    if (!Array.isArray(result?.details)) {
-      startTransition(async () => {
-        await signInWithCredentials(result);
-      });
-    }
+    const result: SignInSchema = await signInServerActions(data);
+    startTransition(async () => {
+      await signInWithCredentials(result);
+    });
   };
 
   const handleSubmitLoginWithGoogle = async () => {

@@ -1,7 +1,9 @@
+import React from 'react';
+
 const TransparentBackground = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="backdrop-blur-sm brightness-75	absolute 0 right-0 top-0 bottom-0 m-auto h-full w-full  items-center shadow-2xl ">
-      <div className="flex h-full w-full justify-center items-center ">
+    <div className="backdrop-blur-sm absolute top-0 left-0 right-0 bottom-0 z-0 m-auto     h-screen  min-h-screen w-screen min-w-screen">
+      <div className="flex h-full w-full justify-center items-center flex-col text-center">
         {children}
       </div>
     </div>

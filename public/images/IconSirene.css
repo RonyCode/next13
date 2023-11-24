@@ -1,9 +1,10 @@
 
 #sirene{
   fill: #ffffff;
-  border-radius: 25% ;
+  border-radius: 25px ;
   padding: 1rem;
-
+  stroke: #333333;
+  stroke-width: 5px;
 }
 
 #domo {

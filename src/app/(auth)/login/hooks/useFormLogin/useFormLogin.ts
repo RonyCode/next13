@@ -8,6 +8,7 @@ export const useFormLogin = () => {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors }
   } = useForm<SignInSchema>({
     resolver: zodResolver(SignInSchema),
@@ -15,6 +16,7 @@ export const useFormLogin = () => {
   });
 
   return {
+    setValue,
     errors,
     setError,
     register,

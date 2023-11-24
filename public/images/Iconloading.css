@@ -4,7 +4,10 @@
         --fillColorBrilho: #263694;
         --fillColorBrilhoDomo: #0026fc;
         --fillColorSombraDomo: #1730be;
-        --fillColorBrilhoFilete: #435cec;
+        --fillColorBrilhoFilete: #fff;
+        --fillRiscos: #a40101;
+
+        fill-opacity: 1;
 
     }
 }
@@ -25,17 +28,22 @@
 }
 
 #spinn {
-    animation: colorChange 3s infinite;
-    fill: none;
+    animation: colorChange 3s ease-in-out infinite;
+    fill: red;
+    --fillColorBrilhoFilete: #fff;
+    --fillColorSombraDomo: #a40101;
+    --fillRiscos: #1730be;
     stroke: var(--toggleCollorText);
     stroke-width: 15px;
-    width: 180px;
+    width: 120px;
+    fill-opacity: 0.5;
+
 }
 
 #brilhoExterno {
     stroke: var(--toggleCollorText);
     transform-origin: center center;
-    animation: colorSpinn 3s infinite;
-    stroke-width: 10px;
-
+    animation: colorSpinn 3s ease-in-out infinite;
 }
+
+
