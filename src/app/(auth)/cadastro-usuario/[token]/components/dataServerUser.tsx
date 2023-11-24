@@ -1,9 +1,4 @@
-import * as React from 'react';
-
-import { useUserStore } from '../../../../../../store/userStore';
-
 export const dataServerUser = (data: string) => {
-  const user = useUserStore.getState().state.user;
   return data;
 };
 

@@ -3,10 +3,9 @@
 import { revalidatePath } from 'next/cache';
 
 import { RegisterUserSchema } from '@/app/(auth)/cadastro-usuario/[token]/schemas/RegisterUserSchema';
-
-import { userErrorRegisterStore } from '../store/userErrorRegisterStore';
-import { useUserStore } from '../store/userStore';
-import { UserRegisterError, UserType } from '../types';
+import { userErrorRegisterStore } from '@/stores/user/userErrorRegisterStore';
+import { useUserStore } from '@/stores/user/userStore';
+import { UserRegisterError, UserType } from '@/types';
 
 export async function submitUserForm(formData: FormData) {
   const formaDataEntries = Object.fromEntries(formData.entries());

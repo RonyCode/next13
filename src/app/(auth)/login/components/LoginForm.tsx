@@ -44,11 +44,12 @@ const LoginForm = () => {
       <div className=" w-full  md:w-96  ">
         <form action={handleSubmitLogin}>
           <Input.Root>
+            <Input.Load pending={pending} />
+            <Input.Label label="Email" icon={User} htmlFor="email" />
             <Input.Content
               autoFocus={true}
               {...register('email')}
               label="Email"
-              icon={User}
               name="email"
               placeholder="Digite seu email"
               hasError={errors.email?.message}
@@ -58,10 +59,10 @@ const LoginForm = () => {
             />
           </Input.Root>
           <Input.Root className="mb-2">
+            <Input.Label label="Senha" icon={MdPassword} htmlFor="senha" />
+
             <Input.Content
               {...register('senha')}
-              icon={MdPassword}
-              label="Senha"
               name="senha"
               placeholder="Digite sua senha"
               type="password"

@@ -1,23 +1,16 @@
-import DataServerUser from '@/app/(auth)/cadastro-usuario/[token]/components/dataServerUser';
+import { Suspense } from 'react';
+
 import { UserForm } from '@/app/(auth)/cadastro-usuario/[token]/components/UserForm';
+import Loading from '@/app/(auth)/cadastro-usuario/[token]/loading';
 import { CardWithLogo } from '@/ui/CardWithLogo';
 
-import UserErrorRegisterInitializeStore from '../../../../../store/UserErrorRegisterInitializeStore';
-import { userErrorRegisterStore } from '../../../../../store/userErrorRegisterStore';
-import { useUserStore } from '../../../../../store/userStore';
-import UserStoreInitialize from '../../../../../store/userStoreInitialize';
-
-const CadastroUsuario = ({ params }: { params: { token: string } }) => {
-  const dataUser = useUserStore.getState().state.user;
-  const dataUserErro = userErrorRegisterStore.getState().user;
-  console.log(dataUser);
-  console.log(dataUserErro);
+const CadastroUsuario = () => {
   return (
     <>
       <CardWithLogo>
-        <UserForm />
-        <UserStoreInitialize user={dataUser} />
-        <UserErrorRegisterInitializeStore userError={dataUserErro} />
+        <Suspense fallback={<Loading />}>
+          <UserForm />
+        </Suspense>
       </CardWithLogo>
     </>
   );

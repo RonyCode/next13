@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 
-import { UserType } from '../types';
+import { UserType } from '../../types';
 import { useUserStore } from './userStore';
 
 type InitializeProps = {

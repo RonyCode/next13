@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 
-import { UserType } from '../types';
+import { UserType } from '../../types';
 import { userErrorRegisterStore } from './userErrorRegisterStore';
 
 type InitializeProps = {

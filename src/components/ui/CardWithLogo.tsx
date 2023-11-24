@@ -11,7 +11,7 @@ export const CardWithLogo = ({ children }: { children: React.ReactNode }) => {
           <div className="flex h-full min-w-full flex-col items-center gap-8  ">
             <Link href="/">
               <Image
-                src="/images/logo.png"
+                src="/images/logo.svg"
                 alt="imagem de logotipo"
                 width={200}
                 height={200}

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { UserType } from '../types';
+import { UserType } from '../../types';
 
 type ActionsProps = {
   add: (user: UserType) => void;

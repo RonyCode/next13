@@ -9,7 +9,7 @@ import { usePreRegister } from '@/app/(auth)/precadastro-usuario/hooks/usePreReg
 import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
 import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
-import { User } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 const PreRegisterUserForm = () => {
   const { errors, register } = useFormPreRegister();
@@ -36,10 +36,10 @@ const PreRegisterUserForm = () => {
         <form action={handleSubmitPreCadastro}>
           <div className="flex flex-col sm:flex-row gap-2">
             <Input.Root className="mb-2 w-full">
+              <Input.Label label="Email" icon={Mail} htmlFor="email" />
               <Input.Content
                 {...register('email')}
                 label="Email"
-                icon={User}
                 name="email"
                 placeholder="Digite seu email"
                 hasError={errors.email?.message}

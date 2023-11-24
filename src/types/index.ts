@@ -1,3 +1,5 @@
+import { unknown, UnknownKeysParam } from 'zod';
+
 export interface UserType {
   nome: string;
   email: string;
@@ -17,4 +19,21 @@ export interface UserType {
 export interface UserRegisterError {
   errors: UserType | null;
   success: boolean;
+}
+
+export interface CepProps {
+  city: string;
+  cityId: string;
+  complement: string;
+  district: string;
+  districtId: string;
+  ibgeId: string;
+  state: string;
+  stateShortname: string;
+  street: string;
+  zipcode: string;
+  code: number;
+  error: boolean;
+  message: string;
+  unknown: string;
 }

@@ -8,16 +8,39 @@ import { GiModernCity } from 'react-icons/gi';
 import { MdNumbers, MdPassword } from 'react-icons/md';
 import { SiOpenstreetmap } from 'react-icons/si';
 import { TbNumber } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 
 import { useFormRegister } from '@/app/(auth)/cadastro-usuario/[token]/hooks/useFormRegister';
 import { Input } from '@/components/Form/Input';
+import { useCep } from '@/hooks/useCep';
+import { CepProps } from '@/types';
 import Button from '@/ui/Button';
+import debounce from 'lodash.debounce';
 import { Mail, Phone, User } from 'lucide-react';
 
-import { submitUserForm } from '../../../../../../actions/userActions';
+import { submitUserForm } from '../actions/userActions';
+
+enum Filds {
+  nome = 'nome',
+  email = 'email',
+  cpf = 'cpf',
+  data_nascimento = 'data_nascimento',
+  telefone = 'telefone',
+  cep = 'cep',
+  endereco = 'endereco',
+  numero = 'numero',
+  bairro = 'bairro',
+  cidade = 'cidade',
+  estado = 'estado',
+  senha = 'senha',
+  confirmaSenha = 'confirmaSenha'
+}
 
 export const UserForm = () => {
-  const { errors, register } = useFormRegister();
+  const { errors, register, isValid, setValue, dirtyFields } =
+    useFormRegister();
+  const { findCep } = useCep();
+
   const [pending, startTransition] = useTransition();
 
   const handleSubmit = async (data: FormData) => {
@@ -26,11 +49,32 @@ export const UserForm = () => {
     });
   };
 
-  const hasErro = Object.keys(errors).length > 0;
+  const chageValueInput = (field: Filds, newValue: string) => {
+    setValue(field, newValue);
+  };
+
+  const handleCep = debounce(async (e) => {
+    if (e?.target?.value) {
+      startTransition(async () => {
+        const { street, city, district, stateShortname }: CepProps =
+          await findCep(e?.target?.value);
+        if (!street || !city || !district || !stateShortname) {
+          toast.error('cep não encontrado');
+        }
+        chageValueInput(Filds.endereco, street);
+        chageValueInput(Filds.cidade, city);
+        chageValueInput(Filds.bairro, district);
+        chageValueInput(Filds.estado, stateShortname);
+      });
+    }
+  }, 800);
+
+  const hasErro = !isValid || Object.keys(dirtyFields).length == 0;
 
   return (
     <form action={handleSubmit} className="min-w-full px-4 md:px-8">
       <div className="flex flex-col sm:flex-row gap-2 my-2">
+        <Input.Load pending={pending} />
         <Input.Root>
           <Input.Label label="Nome" icon={User} htmlFor="nome" />
           <Input.Content
@@ -45,7 +89,6 @@ export const UserForm = () => {
           />
         </Input.Root>
       </div>
-
       <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
           <Input.Label label="Email" icon={Mail} htmlFor="email" />
@@ -117,6 +160,7 @@ export const UserForm = () => {
           <Input.Label label="Cep" icon={MdNumbers} htmlFor="cep" />
           <Input.ContentMasked
             {...register('cep')}
+            onChange={handleCep}
             name="cep"
             id="cep"
             mask="_____-___"
@@ -161,7 +205,6 @@ export const UserForm = () => {
           />
         </Input.Root>
       </div>
-
       <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
           <Input.Label label="Bairro" icon={FaTreeCity} htmlFor="bairro" />

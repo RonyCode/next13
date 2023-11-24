@@ -1,0 +1,41 @@
+@keyframes colorChange {
+
+    to {
+        --fillColorBrilho: #263694;
+        --fillColorBrilhoDomo: #0026fc;
+        --fillColorSombraDomo: #1730be;
+        --fillColorBrilhoFilete: #435cec;
+
+    }
+}
+
+@keyframes colorSpinn {
+    from {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+#domo {
+    transform-origin: center center;
+
+}
+
+#spinn {
+    animation: colorChange 3s infinite;
+    fill: none;
+    stroke: var(--toggleCollorText);
+    stroke-width: 15px;
+    width: 180px;
+}
+
+#brilhoExterno {
+    stroke: var(--toggleCollorText);
+    transform-origin: center center;
+    animation: colorSpinn 3s infinite;
+    stroke-width: 10px;
+
+}
