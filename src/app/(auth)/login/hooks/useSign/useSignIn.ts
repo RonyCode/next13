@@ -1,4 +1,3 @@
-'use client';
 import { toast } from 'react-toastify';
 
 import { signIn } from 'next-auth/react';
@@ -21,7 +20,6 @@ export const useSignIn = () => {
       toast.error('Erro ao tentar logar tente novamente! 🤯');
     }
   }
-
   const signInWithCredentials = async (data: SignInSchema) => {
     try {
       const { email, senha, is_user_external } = data;
@@ -48,7 +46,6 @@ export const useSignIn = () => {
       toast.error('Something went wrong with your login.');
     }
   };
-
   return {
     signInWithCredentials,
     signInWithGoogle

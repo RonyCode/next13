@@ -1,9 +1,13 @@
 'use client';
 
 import './logo.css';
-export default function Logo() {
+export default function Logo({ width = 200 }: { width?: number }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1077.9 295.8">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      viewBox="0 0 1077.9 295.8"
+    >
       <g id="letras">
         <path
           id="letraG"

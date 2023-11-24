@@ -16,16 +16,9 @@ export default async function NavbarHome() {
       <nav className="top-0 flex h-20 w-screen items-center justify-between bg-slate-600 text-white shadow-2xl ">
         <div className="flex w-1/2 items-center  justify-around">
           <Link href="/">
-            <div>
-              <Logo />
-            </div>
-            <Image
-              className=" rounded-2xl  hover:shadow-2xl"
-              src="/images/logo.svg"
-              width={150}
-              height={150}
-              alt="imagem de logotipo"
-            />
+            <span className="w-150 ">
+              <Logo width={160} />
+            </span>
           </Link>
         </div>
         <div className="flex w-1/2 items-center justify-around ">
