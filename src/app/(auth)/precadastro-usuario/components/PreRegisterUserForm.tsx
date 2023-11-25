@@ -2,29 +2,33 @@
 
 import * as React from 'react';
 import { useTransition } from 'react';
+import { toast } from 'react-toastify';
 
 import { preRegisterUserServerActions } from '@/app/(auth)/precadastro-usuario/actions/preRegisterUserServerAction';
 import { useFormPreRegister } from '@/app/(auth)/precadastro-usuario/hooks/useFormPreRegister';
 import { usePreRegister } from '@/app/(auth)/precadastro-usuario/hooks/usePreRegister/usePreRegister';
-import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
+import { ResponsePreRegisterUser } from '@/app/(auth)/precadastro-usuario/types/registerUserForm';
 import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
 import { Mail } from 'lucide-react';
 
 const PreRegisterUserForm = () => {
   const { errors, register } = useFormPreRegister();
-  const { preRegisterUser } = usePreRegister();
   const [pending, startTransition] = useTransition();
 
   const handleSubmitPreCadastro = async (data: FormData) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: PreRegisterUserSchema | any =
-      await preRegisterUserServerActions(data);
-    if (!Array.isArray(result?.details)) {
-      startTransition(async () => {
-        await preRegisterUser(result);
-      });
-    }
+    startTransition(async () => {
+      const result: ResponsePreRegisterUser | Error | unknown =
+        await preRegisterUserServerActions(data);
+
+      if (result.code == 200) {
+        toast.success(`${result?.message} 👌`);
+      }
+
+      if (result.code == 400) {
+        toast.error(`${result?.message} 📢`);
+      }
+    });
   };
 
   const hasError =
@@ -62,9 +66,6 @@ const PreRegisterUserForm = () => {
             </Button>
           </div>
         </form>
-      </div>
-      <div className="text-center text-xs text-gray-500">
-        &copy;2023 RCode All rights reserved.
       </div>
     </>
   );

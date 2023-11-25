@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
-
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const origin: string | null = request.headers.get('origin');
-  const body: PreRegisterUserSchema = await request.json();
-  const { email } = body;
+  const email = await request.json();
 
   if (!email)
     return NextResponse.json({ message: 'Erro parâmetros necessários' });

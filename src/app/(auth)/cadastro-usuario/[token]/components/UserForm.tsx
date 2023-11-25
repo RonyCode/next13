@@ -53,9 +53,9 @@ export const UserForm = () => {
   const handleSubmit = async (data: FormData) => {
     startTransition(async () => {
       const restult = await submitUserForm(data);
-      if (restult.errors) {
+      console.log(restult);
+      if (restult?.errors) {
         const arrayErrors = Object.entries(restult.errors);
-
         for (const error of arrayErrors) {
           chageValueInputError(error[0] as Fields, error[1]);
         }

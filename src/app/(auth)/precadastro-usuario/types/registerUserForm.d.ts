@@ -7,3 +7,10 @@ interface RegisterForm {
   isLoading: boolean;
   email: string;
 }
+
+interface ResponsePreRegisterUser {
+  data: boolean;
+  status: string;
+  code: number;
+  message: string;
+}
