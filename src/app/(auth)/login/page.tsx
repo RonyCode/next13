@@ -1,8 +1,5 @@
 import { FC } from 'react';
 
-import Image from 'next/image';
-import Link from 'next/link';
-
 import LoginForm from '@/app/(auth)/login/components/LoginForm';
 import { CardWithLogo } from '@/ui/CardWithLogo';
 

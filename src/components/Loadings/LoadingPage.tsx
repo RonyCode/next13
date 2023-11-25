@@ -3,7 +3,6 @@ import React from 'react';
 import TransparentBackground from '@/ui/TransParenteBackground';
 
 import IconLoading from '../../../public/images/IconLoading';
-import IconSirene from '../../../public/images/IconSirene';
 import Logo from '../../../public/images/Logo';
 
 const LoadingPage = ({ pending }: { pending: boolean }) => {

@@ -3,7 +3,7 @@ import InputMask from 'react-input-mask';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
-  hasError?: string;
+  hasError?: string | undefined;
   registerInput?: string;
   mask?: string;
   ref: LegacyRef<InputMask> | undefined;
@@ -11,8 +11,6 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 
 const InputContent = forwardRef<HTMLInputElement, InputProps>(
   ({ name = '', hasError = '', type = 'text', ...props }, ref) => {
-    const error = hasError.length > 0;
-
     return (
       <div className=" min-w-screen flex flex-col">
         <input
@@ -21,7 +19,7 @@ const InputContent = forwardRef<HTMLInputElement, InputProps>(
           name={name}
           ref={ref}
           className={`${
-            error
+            hasError.length > 0
               ? 'border-pink-500 text-pink-600  focus:border-pink-500 focus:ring-pink-500'
               : 'focus:border-sky-500 focus:outline-none focus:ring-sky-500'
           }    rounded-md  border bg-white 

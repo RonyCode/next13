@@ -10,6 +10,8 @@ export const useFormRegister = () => {
     setError,
     setValue,
     watch,
+    getFieldState,
+    clearErrors,
     formState: { errors, isValid, isDirty, dirtyFields }
   } = useForm<RegisterUserSchema>({
     mode: 'all',
@@ -33,6 +35,8 @@ export const useFormRegister = () => {
   });
 
   return {
+    clearErrors,
+    getFieldState,
     watch,
     setValue,
     errors,

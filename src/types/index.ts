@@ -1,5 +1,3 @@
-import { unknown, UnknownKeysParam } from 'zod';
-
 export interface UserType {
   nome: string;
   email: string;

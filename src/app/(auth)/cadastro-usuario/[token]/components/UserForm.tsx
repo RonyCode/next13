@@ -20,7 +20,7 @@ import { Mail, Phone, User } from 'lucide-react';
 
 import { submitUserForm } from '../actions/userActions';
 
-enum Filds {
+enum Fields {
   nome = 'nome',
   email = 'email',
   cpf = 'cpf',
@@ -37,20 +37,41 @@ enum Filds {
 }
 
 export const UserForm = () => {
-  const { errors, register, isValid, setValue, dirtyFields } =
-    useFormRegister();
+  const {
+    errors,
+    register,
+    isValid,
+    setValue,
+    setError,
+    dirtyFields,
+    clearErrors
+  } = useFormRegister();
   const { findCep } = useCep();
 
   const [pending, startTransition] = useTransition();
 
   const handleSubmit = async (data: FormData) => {
     startTransition(async () => {
-      await submitUserForm(data);
+      const restult = await submitUserForm(data);
+      if (restult.errors) {
+        const arrayErrors = Object.entries(restult.errors);
+
+        for (const error of arrayErrors) {
+          chageValueInputError(error[0] as Fields, error[1]);
+        }
+      }
     });
   };
 
-  const chageValueInput = (field: Filds, newValue: string) => {
-    setValue(field, newValue);
+  const chageValueInput = (field: Fields, newValue: string) => {
+    setValue(field, newValue, {
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    clearErrors(field);
+  };
+  const chageValueInputError = (field: Fields, newValueError: string) => {
+    setError(field, { message: newValueError });
   };
 
   const handleCep = debounce(async (e) => {
@@ -61,18 +82,17 @@ export const UserForm = () => {
         if (!street || !city || !district || !stateShortname) {
           toast.error('cep não encontrado');
         }
-        chageValueInput(Filds.endereco, street);
-        chageValueInput(Filds.cidade, city);
-        chageValueInput(Filds.bairro, district);
-        chageValueInput(Filds.estado, stateShortname);
+        chageValueInput(Fields.endereco, street);
+        chageValueInput(Fields.cidade, city);
+        chageValueInput(Fields.bairro, district);
+        chageValueInput(Fields.estado, stateShortname);
       });
     }
   }, 800);
 
   const hasErro = !isValid || Object.keys(dirtyFields).length == 0;
-
   return (
-    <form action={handleSubmit} className="min-w-full px-4 md:px-8">
+    <form action={handleSubmit} className="min-w-full">
       <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Load pending={pending} />
         <Input.Root>

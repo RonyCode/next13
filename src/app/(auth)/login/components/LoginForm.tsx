@@ -5,7 +5,6 @@ import { useTransition } from 'react';
 import { MdPassword } from 'react-icons/md';
 
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 import { signInServerActions } from '@/app/(auth)/login/actions/signInServerAction';
 import { useFormLogin } from '@/app/(auth)/login/hooks/useFormLogin';

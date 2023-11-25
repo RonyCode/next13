@@ -13,12 +13,10 @@ export async function submitUserForm(formData: FormData) {
 
   if (result.success) {
     useUserStore.getState().actions.add(result.data as UserType);
-    // redirect('/dashboard');
   }
 
   let zodErros: UserType;
   let resultParse: UserRegisterError = { errors: null, success: true };
-
   if (!result.success) {
     result.error.issues.forEach((issue) => {
       zodErros = {

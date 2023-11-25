@@ -1,4 +1,3 @@
-'use client';
 import { toast } from 'react-toastify';
 
 import { RegisterUserSchema } from '@/app/(auth)/cadastro-usuario/[token]/schemas/RegisterUserSchema';
