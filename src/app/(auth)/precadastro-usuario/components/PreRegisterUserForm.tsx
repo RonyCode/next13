@@ -6,8 +6,6 @@ import { toast } from 'react-toastify';
 
 import { preRegisterUserServerActions } from '@/app/(auth)/precadastro-usuario/actions/preRegisterUserServerAction';
 import { useFormPreRegister } from '@/app/(auth)/precadastro-usuario/hooks/useFormPreRegister';
-import { usePreRegister } from '@/app/(auth)/precadastro-usuario/hooks/usePreRegister/usePreRegister';
-import { ResponsePreRegisterUser } from '@/app/(auth)/precadastro-usuario/types/registerUserForm';
 import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
 import { Mail } from 'lucide-react';
@@ -18,15 +16,14 @@ const PreRegisterUserForm = () => {
 
   const handleSubmitPreCadastro = async (data: FormData) => {
     startTransition(async () => {
-      const result: ResponsePreRegisterUser | Error | unknown =
-        await preRegisterUserServerActions(data);
-
-      if (result.code == 200) {
-        toast.success(`${result?.message} 👌`);
-      }
-
-      if (result.code == 400) {
-        toast.error(`${result?.message} 📢`);
+      const result = await preRegisterUserServerActions(data);
+      if (result) {
+        if ('code' in result && result.code == 200) {
+          toast.success(`${result?.message} 👌`);
+        }
+        if ('code' in result && result.code == 400) {
+          toast.error(`${result?.message}   📢`);
+        }
       }
     });
   };
