@@ -1,13 +1,12 @@
 'use server';
 
-import { toast } from 'react-toastify';
-
 import { revalidatePath } from 'next/cache';
 
 import { usePreRegister } from '@/app/(auth)/precadastro-usuario/hooks/usePreRegister/usePreRegister';
 import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/PreRegisterUserSchema';
 
 export const preRegisterUserServerActions = async (data: FormData) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { preRegisterUser } = usePreRegister();
   try {
     const formData = Object.fromEntries(data.entries());
