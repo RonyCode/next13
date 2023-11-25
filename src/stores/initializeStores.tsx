@@ -7,9 +7,6 @@ import { useUserStore } from '@/stores/user/userStore';
 const InitializeStores = () => {
   const dataUser = useUserStore.getState().state.user;
   const dataUserErro = userErrorRegisterStore.getState().user;
-  console.log(dataUser);
-  console.log(dataUserErro);
-
   return (
     <>
       <UserErrorRegisterInitializeStore userError={dataUserErro} />

@@ -1,6 +1,5 @@
+import { UserType } from '@/types';
 import { create } from 'zustand';
-
-import { UserType } from '../../types';
 
 type UserStore = {
   user: UserType;

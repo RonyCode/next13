@@ -10,7 +10,7 @@ const LoadingPage = ({ pending }: { pending: boolean }) => {
     <>
       {pending ? (
         <TransparentBackground>
-          <span className="flex flex-col items-center gap-2">
+          <span className="flex flex-col items-center gap-2 opacity-80">
             <Logo />
             <IconLoading />
             Carregando...
