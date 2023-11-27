@@ -7,19 +7,15 @@ import { authOptions } from '@/lib/auth';
 const Dashboard = async () => {
   const session = await getServerSession(authOptions);
   return (
-    <div>
-      <section className=" h-screen w-screen bg-slate-800">
-        <div className="h-full bg-amber-50 text-black md:container md:mx-auto ">
-          {' '}
-          {session?.nome}
-          <br /> {session?.nome}
-          <br /> {session?.cod_usuario}
-          <br /> {session?.access_token}
-          <br />
-          {session?.email}
-        </div>
-      </section>
-    </div>
+    <section className=" h-screen w-screen bg-slate-800  ">
+      <div className="h-full bg-amber-50 text-black md:container md:mx-auto  m-auto overflow-hidden ">
+        <br /> {session?.image}
+        <br /> {session?.data_expirar_token}
+        <br /> {session?.email}
+        <br />
+        {session?.email}
+      </div>
+    </section>
   );
 };
 export default Dashboard;

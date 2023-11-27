@@ -16,8 +16,8 @@ const InputLabel = ({
 }: InputProps) => {
   return (
     <label className={twMerge(' w-full', rest.className)} htmlFor={htmlFor}>
-      <div className="flex items-center  w-full gap-2 py-1 text-sm font-bold text-white">
-        <span>{Icon && <Icon size={18} />}</span>
+      <div className="flex items-center  w-full gap-2 py-1  font-bold text-white">
+        <span>{Icon && <Icon size={20} />}</span>
         <span>{label}</span>
       </div>
     </label>

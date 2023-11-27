@@ -12,9 +12,9 @@ export const useSignIn = () => {
   async function signInWithGoogle() {
     try {
       await signIn('google', {
-        callbackUrl: 'http://localhost:3000/dashboard'
+        redirect: false
       });
-      toast.success('Login realizado com sucesso! 👌');
+      router.push('/dashboard');
     } catch (error) {
       // display error message to user
       toast.error('Erro ao tentar logar tente novamente! 🤯');

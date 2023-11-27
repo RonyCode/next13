@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaUser } from 'react-icons/fa6';
 
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
@@ -34,20 +35,24 @@ export default async function NavbarHome() {
             </Link>
           </ul>
           <div className="flex items-center">
-            {session?.nome ? (
+            {session?.email ? (
               <div className=" flex items-center  ">
                 <Link
                   href="/profile"
-                  className=" mx-4 flex items-center  p-1  justify-center   shadow-lg hover:shadow-slate-400 rounded-full "
+                  className=" mx-4 flex items-center  p-3 justify-center  transition  duration-300 ease-in-out  hover:text-slate-300 hover:scale-110"
                 >
-                  <Image
-                    className="rounded-full "
-                    src={session?.image || '/images/avatar.svg'}
-                    width={48}
-                    height={48}
-                    object-fit={'contain'}
-                    alt="img profile"
-                  />
+                  {session?.image ? (
+                    <Image
+                      className="rounded-full "
+                      src={session?.image || '/images/avatar.svg'}
+                      width={48}
+                      height={48}
+                      object-fit={'contain'}
+                      alt="img profile"
+                    />
+                  ) : (
+                    <FaUser size={28} />
+                  )}
                 </Link>
                 <SignOutButton />
               </div>

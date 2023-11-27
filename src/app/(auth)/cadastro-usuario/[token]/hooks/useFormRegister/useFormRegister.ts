@@ -6,13 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export const useFormRegister = () => {
   const {
     register,
-    handleSubmit,
     setError,
     setValue,
-    watch,
-    getFieldState,
     clearErrors,
-    formState: { errors, isValid, isDirty, dirtyFields }
+    formState: { errors, isValid, dirtyFields }
   } = useForm<RegisterUserSchema>({
     mode: 'all',
     criteriaMode: 'all',
@@ -36,15 +33,11 @@ export const useFormRegister = () => {
 
   return {
     clearErrors,
-    getFieldState,
-    watch,
     setValue,
     errors,
     setError,
     register,
-    handleSubmit,
     isValid,
-    isDirty,
     dirtyFields
   };
 };

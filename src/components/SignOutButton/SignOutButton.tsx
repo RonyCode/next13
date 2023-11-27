@@ -1,25 +1,31 @@
 'use client';
 import React from 'react';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import { deleteCookies } from '@/components/SignOutButton/LogoutAction';
 import Button from '@/ui/Button';
-import { LogOut } from 'lucide-react';
 
 const SignOutButton = () => {
+  const router = useRouter();
   const handleClick = async () => {
     deleteCookies();
     await signOut({
-      callbackUrl: 'http://localhost:3000/login'
+      redirect: false
     });
+    router.push('/');
   };
 
   return (
     <>
       <div>
         <Button onClick={handleClick}>
-          <LogOut />
+          <FaSignOutAlt
+            size={32}
+            className=" transition duration-0 ease-in-out hover:scale-110 hover:text-slate-300 hover:duration-300"
+          />
         </Button>
       </div>
     </>

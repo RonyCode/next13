@@ -22,7 +22,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const res = await fetch(`${process.env.API_GSO}/cadastro/usuario`, {
+  const res = await fetch(`${process.env.API_GSO}/api/auth/cadastro/usuario`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

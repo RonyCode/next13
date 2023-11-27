@@ -48,14 +48,7 @@ const PageNotFound = ({
               height="0"
               alt="image-404"
             />
-            <Button
-              variant="default"
-              className="mr-2 w-40 max-w-sm p-2 focus:ring-opacity-50 "
-              onClick={
-                // Attempt to recover by trying to re-render the segment
-                () => reset()
-              }
-            >
+            <Button variant="default" size="default" onClick={() => reset()}>
               Tentar novamente
             </Button>
           </div>

@@ -2,13 +2,23 @@
 
 import * as React from 'react';
 import { useTransition } from 'react';
-import { FaBirthdayCake, FaCity } from 'react-icons/fa';
-import { FaTreeCity } from 'react-icons/fa6';
-import { GiModernCity } from 'react-icons/gi';
-import { MdNumbers, MdPassword } from 'react-icons/md';
-import { SiOpenstreetmap } from 'react-icons/si';
-import { TbNumber } from 'react-icons/tb';
+import {
+  FaCakeCandles,
+  FaCity,
+  FaEnvelope,
+  FaHashtag,
+  FaHouse,
+  FaHouseUser,
+  FaIdCard,
+  FaMapLocationDot,
+  FaMountainCity,
+  FaPhone,
+  FaTreeCity,
+  FaUnlockKeyhole
+} from 'react-icons/fa6';
 import { toast } from 'react-toastify';
+
+import { redirect } from 'next/navigation';
 
 import { useFormRegister } from '@/app/(auth)/cadastro-usuario/[token]/hooks/useFormRegister';
 import { Input } from '@/components/Form/Input';
@@ -16,7 +26,6 @@ import { useCep } from '@/hooks/useCep';
 import { CepProps } from '@/types';
 import Button from '@/ui/Button';
 import debounce from 'lodash.debounce';
-import { Mail, Phone, User } from 'lucide-react';
 
 import { submitUserForm } from '../actions/userActions';
 
@@ -53,7 +62,6 @@ export const UserForm = () => {
   const handleSubmit = async (data: FormData) => {
     startTransition(async () => {
       const restult = await submitUserForm(data);
-      console.log(restult);
       if (restult?.errors) {
         const arrayErrors = Object.entries(restult.errors);
         for (const error of arrayErrors) {
@@ -79,7 +87,7 @@ export const UserForm = () => {
       startTransition(async () => {
         const { street, city, district, stateShortname }: CepProps =
           await findCep(e?.target?.value);
-        if (!street || !city || !district || !stateShortname) {
+        if (!city) {
           toast.error('cep não encontrado');
         }
         chageValueInput(Fields.endereco, street);
@@ -94,9 +102,11 @@ export const UserForm = () => {
   return (
     <form action={handleSubmit} className="min-w-full">
       <div className="flex flex-col sm:flex-row gap-2 my-2">
+        {}
+
         <Input.Load pending={pending} />
         <Input.Root>
-          <Input.Label label="Nome" icon={User} htmlFor="nome" />
+          <Input.Label label="Nome" icon={FaHouse} htmlFor="nome" />
           <Input.Content
             {...register('nome')}
             id="nome"
@@ -111,7 +121,7 @@ export const UserForm = () => {
       </div>
       <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
-          <Input.Label label="Email" icon={Mail} htmlFor="email" />
+          <Input.Label label="Email" icon={FaEnvelope} htmlFor="email" />
           <Input.Content
             {...register('email')}
             name="email"
@@ -125,7 +135,7 @@ export const UserForm = () => {
         </Input.Root>
 
         <Input.Root className="w-full md:w-6/12">
-          <Input.Label htmlFor="cpf" label="Cpf" icon={MdNumbers} />
+          <Input.Label htmlFor="cpf" label="Cpf" icon={FaIdCard} />
           <Input.ContentMasked
             {...register('cpf')}
             name="cpf"
@@ -143,7 +153,7 @@ export const UserForm = () => {
         <Input.Root>
           <Input.Label
             label="Nascimento"
-            icon={FaBirthdayCake}
+            icon={FaCakeCandles}
             htmlFor="data_nascimento"
           />
           <Input.ContentMasked
@@ -163,7 +173,7 @@ export const UserForm = () => {
         </Input.Root>
 
         <Input.Root>
-          <Input.Label label="Telefone" icon={Phone} htmlFor="telefone" />
+          <Input.Label label="Telefone" icon={FaPhone} htmlFor="telefone" />
           <Input.ContentMasked
             {...register('telefone')}
             id="telefone"
@@ -177,7 +187,7 @@ export const UserForm = () => {
           />
         </Input.Root>
         <Input.Root>
-          <Input.Label label="Cep" icon={MdNumbers} htmlFor="cep" />
+          <Input.Label label="Cep" icon={FaMapLocationDot} htmlFor="cep" />
           <Input.ContentMasked
             {...register('cep')}
             onChange={handleCep}
@@ -194,11 +204,7 @@ export const UserForm = () => {
       </div>
       <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
-          <Input.Label
-            label="Endereço"
-            icon={SiOpenstreetmap}
-            htmlFor="endereco"
-          />
+          <Input.Label label="Endereço" icon={FaHouseUser} htmlFor="endereco" />
           <Input.Content
             {...register('endereco')}
             name="endereco"
@@ -212,7 +218,7 @@ export const UserForm = () => {
         </Input.Root>
 
         <Input.Root className="w-full md:w-6/12">
-          <Input.Label label="Numero" icon={TbNumber} htmlFor="numero" />
+          <Input.Label label="Numero" icon={FaHashtag} htmlFor="numero" />
           <Input.Content
             {...register('numero')}
             name="numero"
@@ -254,7 +260,7 @@ export const UserForm = () => {
         </Input.Root>
 
         <Input.Root>
-          <Input.Label label="Estado" icon={GiModernCity} htmlFor="estado" />
+          <Input.Label label="Estado" icon={FaMountainCity} htmlFor="estado" />
           <Input.Content
             {...register('estado')}
             name="estado"
@@ -269,7 +275,7 @@ export const UserForm = () => {
       </div>
       <div className="flex flex-col sm:flex-row gap-2 my-2">
         <Input.Root>
-          <Input.Label label="Senha" icon={MdPassword} htmlFor="senha" />
+          <Input.Label label="Senha" icon={FaUnlockKeyhole} htmlFor="senha" />
           <Input.Content
             {...register('senha')}
             name="senha"
@@ -286,7 +292,7 @@ export const UserForm = () => {
         <Input.Root>
           <Input.Label
             label="Confirma Senha"
-            icon={MdPassword}
+            icon={FaUnlockKeyhole}
             htmlFor="confirmaSenha"
           />
           <Input.Content
@@ -305,12 +311,12 @@ export const UserForm = () => {
           />
         </Input.Root>
       </div>
-      <div className=" float-right w-1/2 mt-3 flex items-center justify-between ">
+      <div className=" float-right w-1/2 mt-3 flex items-center justify-end ">
         <Button
           isLoading={pending}
-          disabled={hasErro || pending}
+          disabled={pending}
           variant="default"
-          className="mx-2 w-full max-w-sm p-2"
+          size="default"
           type="submit"
         >
           Cancelar
@@ -319,7 +325,7 @@ export const UserForm = () => {
           isLoading={pending}
           disabled={hasErro || pending}
           variant="default"
-          className="mr-2 w-full max-w-sm p-2 focus:ring-opacity-50"
+          size="default"
           type="submit"
         >
           Cadastrar

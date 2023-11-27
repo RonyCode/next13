@@ -1,10 +1,10 @@
 'use client';
 import * as React from 'react';
 import { ButtonHTMLAttributes, FC } from 'react';
+import { FaSpinner } from 'react-icons/fa6';
 
 import { cn } from '@/lib/ultis';
 import { cva, VariantProps } from 'class-variance-authority';
-import { Loader2 } from 'lucide-react';
 const buttonVariants = cva(
   'active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-bold transition-color ' +
     'focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 ' +
@@ -56,7 +56,7 @@ const Button: FC<ButtonProps> = ({
       disabled={isLoading}
       {...props}
     >
-      {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+      {isLoading ? <FaSpinner className="mr-2 h-4 w-4 animate-spin" /> : null}
       {children}
     </button>
   );

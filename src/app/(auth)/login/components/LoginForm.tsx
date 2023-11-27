@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useTransition } from 'react';
-import { MdPassword } from 'react-icons/md';
+import { FaUnlockKeyhole, FaUser } from 'react-icons/fa6';
 
 import Link from 'next/link';
 
@@ -12,7 +12,6 @@ import { useSignIn } from '@/app/(auth)/login/hooks/useSign';
 import { SignInSchema } from '@/app/(auth)/login/schemas/SignInSchema';
 import { Input } from '@/components/Form/Input';
 import Button from '@/ui/Button';
-import { User } from 'lucide-react';
 
 const LoginForm = () => {
   const { errors, register } = useFormLogin();
@@ -41,7 +40,7 @@ const LoginForm = () => {
         <form action={handleSubmitLogin}>
           <Input.Root>
             <Input.Load pending={pending} />
-            <Input.Label label="Email" icon={User} htmlFor="email" />
+            <Input.Label label="Email" icon={FaUser} htmlFor="email" />
             <Input.Content
               autoFocus={true}
               {...register('email')}
@@ -55,7 +54,7 @@ const LoginForm = () => {
             />
           </Input.Root>
           <Input.Root className="mb-2">
-            <Input.Label label="Senha" icon={MdPassword} htmlFor="senha" />
+            <Input.Label label="Senha" icon={FaUnlockKeyhole} htmlFor="senha" />
 
             <Input.Content
               {...register('senha')}
@@ -73,7 +72,7 @@ const LoginForm = () => {
               isLoading={pending}
               disabled={hasError || pending}
               variant="default"
-              className="mr-2 w-full max-w-sm p-2"
+              size="default"
               type="submit"
             >
               Login
@@ -94,7 +93,7 @@ const LoginForm = () => {
           isLoading={pending}
           type="button"
           variant="default"
-          className="mx-auto mb-3 w-full  p-2"
+          size="default"
           onClick={handleSubmitLoginWithGoogle}
         >
           <svg

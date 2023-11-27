@@ -7,7 +7,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!email)
     return NextResponse.json({ message: 'Erro parâmetros necessários' });
 
-  const res = await fetch(`${process.env.API_GSO}/auth/pre-cadastro`, {
+  const res = await fetch(`${process.env.API_GSO}/api/auth/pre-cadastro`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

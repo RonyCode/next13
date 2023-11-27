@@ -40,7 +40,12 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
-      authorization: { params: { access_type: 'offline', prompt: 'consent' } }
+      authorization: {
+        params: {
+          access_type: 'offline',
+          prompt: 'consent'
+        }
+      }
     }),
 
     CredentialsProvider({
@@ -104,6 +109,7 @@ export const authOptions: NextAuthOptions = {
           };
 
           const userGoogle = await confereLogado(payload);
+
           if (userGoogle == null) return token;
           // Save the access token and refresh token in the JWT on the initial login
           cookies().set({
@@ -125,10 +131,7 @@ export const authOptions: NextAuthOptions = {
           return {
             ...token,
             cod_usuario: userGoogle?.cod_usuario,
-            nome: userGoogle?.nome,
             email: userGoogle?.email,
-            image: userGoogle?.image,
-            picture: userGoogle?.image,
             senha: userGoogle?.senha,
             token: userGoogle?.token,
             access_token: userGoogle?.token,
@@ -154,14 +157,10 @@ export const authOptions: NextAuthOptions = {
             path: '/'
           });
           //=====================================================================
-
           return {
             ...token,
             cod_usuario: user?.cod_usuario,
-            nome: user?.nome,
             email: user?.email,
-            image: user?.image,
-            picture: user?.image,
             senha: user?.senha,
             token: user?.token,
             access_token: user?.token,
@@ -176,10 +175,7 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       session.cod_usuario = token?.cod_usuario;
-      session.nome = token?.nome;
       session.email = token?.email;
-      session.image = token?.image;
-      session.picture = token?.picture;
       session.senha = token?.senha;
       session.token = token?.token;
       session.access_token = token?.access_token;

@@ -2,28 +2,26 @@
 
 import * as React from 'react';
 import { useTransition } from 'react';
-import { toast } from 'react-toastify';
+import { FaEnvelope } from 'react-icons/fa6';
+
+import { redirect } from 'next/navigation';
 
 import { preRegisterUserServerActions } from '@/app/(auth)/precadastro-usuario/actions/preRegisterUserServerAction';
 import { useFormPreRegister } from '@/app/(auth)/precadastro-usuario/hooks/useFormPreRegister';
 import { Input } from '@/components/Form/Input';
+import { MessageEvent } from '@/functions/MessageEvent';
 import Button from '@/ui/Button';
-import { Mail } from 'lucide-react';
 
 const PreRegisterUserForm = () => {
   const { errors, register } = useFormPreRegister();
   const [pending, startTransition] = useTransition();
 
   const handleSubmitPreCadastro = async (data: FormData) => {
+    const result = await preRegisterUserServerActions(data);
     startTransition(async () => {
-      const result = await preRegisterUserServerActions(data);
       if (result) {
-        if ('code' in result && result.code == 200) {
-          toast.success(`${result?.message} 👌`);
-        }
-        if ('code' in result && result.code == 400) {
-          toast.error(`${result?.message}   📢`);
-        }
+        await MessageEvent(result?.data?.email, 'email-sended');
+        redirect('/');
       }
     });
   };
@@ -33,37 +31,36 @@ const PreRegisterUserForm = () => {
 
   return (
     <>
-      <div className=" w-full gap-12 p-2 md:p-8 ">
-        <form action={handleSubmitPreCadastro}>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Input.Root className="mb-2 w-full">
-              <Input.Label label="Email" icon={Mail} htmlFor="email" />
-              <Input.Content
-                {...register('email')}
-                label="Email"
-                name="email"
-                placeholder="Digite seu email"
-                hasError={errors.email?.message}
-              />
-              <Input.HelpText
-                text={errors.email?.message && '📣 ' + errors.email?.message}
-              />
-            </Input.Root>
-          </div>
-
-          <div className="mt-3">
-            <Button
-              isLoading={pending}
-              disabled={hasError || pending}
-              variant="default"
-              className="mr-2 w-2/6 max-w-sm p-2 focus:ring-opacity-50 float-right"
-              type="submit"
-            >
-              Enviar
-            </Button>
-          </div>
-        </form>
-      </div>
+      <form
+        action={handleSubmitPreCadastro}
+        className="w-full gap-12 p-2 md:p-8 justify-center items-center flex"
+      >
+        <div className=" w-full md:w-8/12">
+          <Input.Root>
+            <Input.Label label="Email" icon={FaEnvelope} htmlFor="email" />
+            <Input.Content
+              {...register('email')}
+              label="Email"
+              name="email"
+              placeholder="Digite seu email"
+              hasError={errors.email?.message}
+            />
+            <Input.HelpText
+              text={errors.email?.message && '📣 ' + errors.email?.message}
+            />
+          </Input.Root>
+          <Button
+            className="float-right"
+            isLoading={pending}
+            disabled={hasError || pending}
+            variant="default"
+            size="default"
+            type="submit"
+          >
+            Enviar
+          </Button>
+        </div>
+      </form>
     </>
   );
 };

@@ -8,7 +8,7 @@ const InputHelpText = ({ text }: InputLabelProps) => {
 
   return (
     <>
-      <div className="text-sm text-red-600 mb-1">
+      <div className="text-sm text-red-600 mt-1 mb-2">
         {hasError && <p> {text}</p>}
       </div>
     </>

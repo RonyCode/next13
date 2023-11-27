@@ -8,15 +8,17 @@ import { PreRegisterUserSchema } from '@/app/(auth)/precadastro-usuario/schemas/
 export const preRegisterUserServerActions = async (data: FormData) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { preRegisterUser } = usePreRegister();
+  revalidatePath('/');
+
   try {
     const formData = Object.fromEntries(data.entries());
     const result = PreRegisterUserSchema.safeParse(formData);
 
     if (result.success) {
-      return await preRegisterUser(result.data as PreRegisterUserSchema);
+      await preRegisterUser(result.data as PreRegisterUserSchema);
+      return result;
     }
   } catch (error) {
     console.log(error);
   }
 };
-revalidatePath('/');

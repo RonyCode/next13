@@ -27,5 +27,5 @@ export const deleteCookies = () => {
     path: '/',
     maxAge: 0
   });
-  revalidatePath('/login');
+  revalidatePath('/');
 };
