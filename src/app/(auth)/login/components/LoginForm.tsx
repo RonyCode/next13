@@ -72,7 +72,7 @@ const LoginForm = () => {
               isLoading={pending}
               disabled={hasError || pending}
               variant="default"
-              size="default"
+              className="mr-2 w-full max-w-sm p-2"
               type="submit"
             >
               Login
@@ -93,7 +93,7 @@ const LoginForm = () => {
           isLoading={pending}
           type="button"
           variant="default"
-          size="default"
+          className="mx-auto mb-3 w-full  p-2"
           onClick={handleSubmitLoginWithGoogle}
         >
           <svg

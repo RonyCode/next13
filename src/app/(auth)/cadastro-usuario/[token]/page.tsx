@@ -1,13 +1,8 @@
-import { toast } from 'react-toastify';
-
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 import { UserForm } from '@/app/(auth)/cadastro-usuario/[token]/components/UserForm';
-import { CepProps } from '@/types';
 import { CardWithLogo } from '@/ui/CardWithLogo';
 import { decodeJwt } from 'jose';
-import debounce from 'lodash.debounce';
 
 const CadastroUsuario = async ({ params }: { params: { token: string } }) => {
   const tokenReplaced = params.token.replaceAll('%2B', '.');

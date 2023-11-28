@@ -12,9 +12,9 @@ export const useSignIn = () => {
   async function signInWithGoogle() {
     try {
       await signIn('google', {
-        redirect: false
+        callbackUrl:
+          new TextEncoder().encode(process.env.NEXTAUTH_URL) + '/dashboard'
       });
-      router.push('/dashboard');
     } catch (error) {
       // display error message to user
       toast.error('Erro ao tentar logar tente novamente! 🤯');
