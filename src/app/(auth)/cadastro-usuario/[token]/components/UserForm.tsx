@@ -18,8 +18,6 @@ import {
 } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
-import { redirect } from 'next/navigation';
-
 import { useFormRegister } from '@/app/(auth)/cadastro-usuario/[token]/hooks/useFormRegister';
 import { Input } from '@/components/Form/Input';
 import { useCep } from '@/hooks/useCep';

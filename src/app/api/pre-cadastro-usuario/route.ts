@@ -16,6 +16,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     body: JSON.stringify({ email })
   });
 
+  console.log(await res.json());
   if (!res.ok) {
     const { message } = await res.json();
     return NextResponse.json({ message: message }, { status: 400 });

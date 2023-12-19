@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { authOptions } from '@/lib/auth';
+import Button from '@/ui/Button';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -21,6 +22,14 @@ export default async function Home() {
         <pre>{'email: ' + session?.email}</pre>
         <pre>{'image: ' + session?.image}</pre>
         <pre>{'cod_usuario: ' + session?.cod_usuario}</pre>
+
+        <Button
+          size="default"
+          variant="default"
+          className="button animate-spinTest "
+        >
+          Button
+        </Button>
       </div>
     </main>
   );

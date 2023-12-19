@@ -8,7 +8,7 @@ import { z } from 'zod';
 export const usePreRegister = () => {
   const preRegisterUser = async ({ email }: PreRegisterUserSchema) => {
     try {
-      return await fetchWrapper<ResponsePreRegisterUser>(
+      const re = await fetchWrapper<ResponsePreRegisterUser>(
         `${process.env.NEXTAUTH_URL}/api/pre-cadastro-usuario`,
         {
           method: 'POST',
@@ -18,6 +18,9 @@ export const usePreRegister = () => {
           body: JSON.stringify(email)
         }
       );
+
+      console.log(re);
+      return re;
     } catch (error) {
       if (error instanceof z.ZodError) {
         return error;
