@@ -5,7 +5,8 @@ import { CardWithLogo } from '@/ui/CardWithLogo';
 import { decodeJwt } from 'jose';
 
 const CadastroUsuario = async ({ params }: { params: { token: string } }) => {
-  const tokenReplaced = params.token.replaceAll('%2B', '.');
+  const { token } = params;
+  const tokenReplaced = token ? token.replaceAll('%2B', '.') : '';
 
   const payload = decodeJwt(tokenReplaced);
   let jwtValid;
